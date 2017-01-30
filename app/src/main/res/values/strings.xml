@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">CoolApk Console</string>
+    <string name="action_login">Login</string>
+    <string name="err_login">Can\'t login, please retry later.</string>
 </resources>

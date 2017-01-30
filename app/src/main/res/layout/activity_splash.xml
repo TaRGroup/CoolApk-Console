@@ -10,14 +10,31 @@
         android:layout_height="15dp" />
     <RelativeLayout
         android:id="@+id/splash_context"
-        android:visibility="gone"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
         <ImageView
+            android:layout_centerInParent="true"
             android:src="@mipmap/ic_launcher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+        <FrameLayout
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ProgressBar
+                android:id="@+id/splash_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <android.support.v7.widget.AppCompatButton
+                android:visibility="gone"
+                android:text="@string/action_login"
+                android:id="@+id/splash_button_login"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </FrameLayout>
     </RelativeLayout>
 </RelativeLayout>

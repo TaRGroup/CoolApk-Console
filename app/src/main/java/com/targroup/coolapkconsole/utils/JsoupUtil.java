@@ -9,11 +9,14 @@ import java.io.IOException;
 
 /**
  * Created by rachel on 17-1-30.
+ * @author Rachel
  */
 
 public class JsoupUtil {
 
     public static Document getDocument(String url) throws IOException {
+        if (!url.startsWith("https://") || !url.startsWith("http://"))
+            url = "http://" + url;
         return Jsoup.connect(url).get();
     }
 
