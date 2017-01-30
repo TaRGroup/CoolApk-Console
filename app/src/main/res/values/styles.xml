@@ -13,4 +13,11 @@
     <style name="AppTheme.Transparent" parent="@style/AppTheme">
     </style>
     <style name="SplashStyle" parent="@android:style/Theme.DeviceDefault.Wallpaper.NoTitleBar" />
+
+    <!-- BezelImageView -->
+    <style name="BezelImageView">
+        <item name="biv_maskDrawable">@drawable/material_drawer_circle_mask</item>
+        <item name="biv_drawCircularShadow">true</item>
+        <!-- <item name="biv_selectorOnPress">@color/material_drawer_primary</item> -->
+    </style>
 </resources>

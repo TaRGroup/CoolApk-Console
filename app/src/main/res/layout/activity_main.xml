@@ -33,14 +33,16 @@
             android:padding="16dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Hello World!"/>
+            <ProgressBar
+                android:id="@+id/progress"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
         </RelativeLayout>
     </LinearLayout>
     <android.support.design.widget.NavigationView
+        app:headerLayout="@layout/nav_header"
         android:id="@+id/navigation_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

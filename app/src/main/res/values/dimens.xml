@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ********************** -->
+    <!-- Material Drawer Dimens -->
+    <!-- ********************** -->
+    <!-- General drawer width https://medium.com/sebs-top-tips/material-navigation-drawer-sizing-558aea1ad266 -->
+    <dimen name="material_drawer_width">320dp</dimen>
+    <!-- Definition for the Drawer Slider margin right -->
+    <dimen name="material_drawer_margin">0dp</dimen>
+    <!-- General padding value -->
+    <dimen name="material_drawer_padding">8dp</dimen>
+    <!-- General vertical padding values / 24dp for tablets -->
+    <dimen name="material_drawer_vertical_padding">16dp</dimen>
+    <!-- General margins for the drawer account header -->
+    <dimen name="material_drawer_account_header_height">148dp</dimen>
+    <dimen name="material_drawer_account_header_height_compact">72dp</dimen>
+    <dimen name="material_drawer_account_header_horizontal_top">16dp</dimen>
+    <dimen name="material_drawer_account_header_horizontal_bottom">4dp</dimen>
+    <dimen name="material_drawer_account_header_selected">64dp</dimen>
+    <dimen name="material_drawer_account_header_secondary">40dp</dimen>
+    <dimen name="material_drawer_account_header_compact">56dp</dimen>
+    <dimen name="material_drawer_account_header_text">14sp</dimen>
+    <dimen name="material_drawer_account_header_dropdown">22dp</dimen>
+    <dimen name="material_drawer_account_header_dropdown_padding">5dp</dimen>
+    <dimen name="material_drawer_account_header_dropdown_margin_bottom">14dp</dimen>
+</resources>
