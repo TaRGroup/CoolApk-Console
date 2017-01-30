@@ -12,9 +12,7 @@ import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 
 import com.targroup.coolapkconsole.R;
 import com.targroup.coolapkconsole.utils.JsoupUtil;
@@ -50,7 +48,6 @@ public class SplashActivity extends Activity {
                     }
 
                     @Override
-                    @SuppressWarnings("unchecked")
                     public void onAnimationEnd(Animation a) {
                         findViewById(R.id.splash_context).setVisibility(View.VISIBLE);
                         mTaskCheckLogin = new CheckLoginTask();

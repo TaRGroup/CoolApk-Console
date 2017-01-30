@@ -9,6 +9,7 @@
         android:layout_width="15dp"
         android:layout_height="15dp" />
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/splash_context"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
@@ -17,9 +18,10 @@
         <ImageView
             android:layout_centerInParent="true"
             android:src="@mipmap/ic_launcher"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="98dp"
+            android:layout_height="98dp" />
         <FrameLayout
+            android:layout_centerInParent="true"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="16dp"
             android:layout_width="wrap_content"
