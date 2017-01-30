@@ -2,10 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ImageView
+    <View
         android:layout_centerInParent="true"
         android:id="@+id/splash_background"
-        android:background="@drawable/bg_splash"
+        android:background="@color/colorPrimary"
         android:layout_width="15dp"
         android:layout_height="15dp" />
     <RelativeLayout
@@ -34,7 +34,7 @@
                 android:visibility="gone"
                 android:text="@string/action_login"
                 android:id="@+id/splash_button_login"
-                style="@style/Widget.AppCompat.Button.Colored"
+                style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </FrameLayout>

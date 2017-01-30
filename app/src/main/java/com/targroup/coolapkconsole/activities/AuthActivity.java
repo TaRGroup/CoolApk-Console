@@ -1,11 +1,11 @@
 package com.targroup.coolapkconsole.activities;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.webkit.WebView;
 import android.webkit.CookieManager;
 import android.webkit.WebViewClient;
+import android.content.Intent;
 
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -40,8 +40,9 @@ public class AuthActivity extends AppCompatActivity {
                 if (cookies != null) {
                     UserSave userSave = new UserSave(cookies);
                     if (userSave.isLogin()) {
-                        webView.stopLoading();
                         userSave.updateToSave();
+                        webView.stopLoading();
+                        startActivity(new Intent(AuthActivity.this, MainActivity.class));
                         finish();
                     }
                 }

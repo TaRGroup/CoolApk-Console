@@ -1,18 +1,21 @@
 package com.targroup.coolapkconsole.activities;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.os.Handler;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.widget.Button;
+
+import android.support.annotation.Nullable;
 
 import com.targroup.coolapkconsole.R;
 import com.targroup.coolapkconsole.utils.JsoupUtil;
@@ -50,6 +53,7 @@ public class SplashActivity extends Activity {
                     @Override
                     public void onAnimationEnd(Animation a) {
                         findViewById(R.id.splash_context).setVisibility(View.VISIBLE);
+                        findViewById(R.id.splash_context).setAnimation(AnimationUtils.loadAnimation(SplashActivity.this,R.anim.anim_splash_button));
                     }
 
                     @Override
@@ -99,18 +103,25 @@ public class SplashActivity extends Activity {
             findViewById(R.id.splash_progress).setVisibility(View.GONE);
             if (o != null) {
                 if (o instanceof Boolean) {
-                    if ((Boolean)o) {
-                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                        finish();
-                    } else {
+                    if (!(Boolean)o) {
                         Button buttonLogin = (Button)findViewById(R.id.splash_button_login);
                         buttonLogin.setVisibility(View.VISIBLE);
+                        buttonLogin.setAnimation(AnimationUtils.loadAnimation(getApplicationContext(),R.anim.anim_splash_button));
                         buttonLogin.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 startActivity(new Intent(SplashActivity.this, AuthActivity.class));
+                                finish();
                             }
                         });
+                    } else {
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                                finish();
+                            }
+                        },2000);
                     }
                 } else if (o instanceof Exception) {
                     new AlertDialog.Builder(SplashActivity.this, R.style.AppTheme)
