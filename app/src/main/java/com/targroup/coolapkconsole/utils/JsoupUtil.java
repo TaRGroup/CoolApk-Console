@@ -9,6 +9,7 @@ import java.io.IOException;
 
 /**
  * Created by rachel on 17-1-30.
+ * A tool to parse urls
  * @author Rachel
  */
 
