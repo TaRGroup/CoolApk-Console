@@ -1,5 +1,8 @@
 package com.targroup.coolapkconsole.utils;
 
+import com.targroup.coolapkconsole.model.UserSave;
+
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -15,10 +18,14 @@ import java.io.IOException;
 
 public class JsoupUtil {
 
-    public static Document getDocument(String url) throws IOException {
+    public static Document getDocument(String url, boolean loginCoolApk) throws IOException {
         if (!url.startsWith("https://") || !url.startsWith("http://"))
             url = "http://" + url;
-        return Jsoup.connect(url).get();
+        Connection connection = Jsoup.connect(url);
+        if (loginCoolApk) {
+            connection.cookies(new UserSave().buildWebRequestCookie());
+        }
+        return connection.get();
     }
 
     public static Elements select(Document document, String tag) {

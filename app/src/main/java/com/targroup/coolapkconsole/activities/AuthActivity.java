@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.targroup.coolapkconsole.R;
+import com.targroup.coolapkconsole.model.UserSave;
 
 /**
  * Created by rachel on 17-1-30.
@@ -26,7 +27,7 @@ public class AuthActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.auth);
 
-        WebView webView = (WebView)findViewById(R.id.auth_webview);
+        final WebView webView = (WebView)findViewById(R.id.auth_webview);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         webView.clearCache(true);
@@ -36,7 +37,12 @@ public class AuthActivity extends AppCompatActivity {
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 String cookies = CookieManager.getInstance().getCookie(url);
-                Log.d("LOGIN",cookies);
+                UserSave userSave = new UserSave(cookies);
+                if (userSave.isLogin()) {
+                    webView.stopLoading();
+                    userSave.updateToSave();
+                    finish();
+                }
             }
         });
         mToolbar = (Toolbar)findViewById(R.id.auth_toolbar);

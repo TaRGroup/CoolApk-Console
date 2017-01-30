@@ -50,8 +50,6 @@ public class SplashActivity extends Activity {
                     @Override
                     public void onAnimationEnd(Animation a) {
                         findViewById(R.id.splash_context).setVisibility(View.VISIBLE);
-                        mTaskCheckLogin = new CheckLoginTask();
-                        mTaskCheckLogin.execute();
                     }
 
                     @Override
@@ -69,11 +67,17 @@ public class SplashActivity extends Activity {
             mTaskCheckLogin.cancel(true);
         super.onDestroy();
     }
+    @Override
+    public void onStart () {
+        super.onStart();
+        mTaskCheckLogin = new CheckLoginTask();
+        mTaskCheckLogin.execute();
+    }
     private class CheckLoginTask extends AsyncTask<Void, Void, Object> {
         @Override
         protected Object doInBackground(Void... params) {
             try {
-                Document loginDocument = JsoupUtil.getDocument("developer.coolapk.com");
+                Document loginDocument = JsoupUtil.getDocument("developer.coolapk.com", true);
                 Elements cardElements = JsoupUtil.select(loginDocument, "div[class=mdl-card__supporting-text]");
                 if (cardElements.size() > 0 && "你还没有登录，请先登录！".equals(cardElements.text())) {
                     return Boolean.FALSE;
@@ -104,7 +108,7 @@ public class SplashActivity extends Activity {
                         buttonLogin.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                // TODO:Login
+                                startActivity(new Intent(SplashActivity.this, AuthActivity.class));
                             }
                         });
                     }

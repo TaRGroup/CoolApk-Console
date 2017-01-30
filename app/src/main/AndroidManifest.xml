@@ -3,6 +3,7 @@
     package="com.targroup.coolapkconsole">
     <uses-permission android:name="android.permission.INTERNET" />
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -11,15 +12,13 @@
         <activity android:name=".activities.MainActivity" />
         <activity android:name=".activities.SplashActivity"
             android:theme="@style/SplashStyle">
-        </activity>
-        <activity android:name=".activities.AuthActivity"
-            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.AuthActivity"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>
