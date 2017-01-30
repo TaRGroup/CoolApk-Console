@@ -37,11 +37,13 @@ public class AuthActivity extends AppCompatActivity {
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 String cookies = CookieManager.getInstance().getCookie(url);
-                UserSave userSave = new UserSave(cookies);
-                if (userSave.isLogin()) {
-                    webView.stopLoading();
-                    userSave.updateToSave();
-                    finish();
+                if (cookies != null) {
+                    UserSave userSave = new UserSave(cookies);
+                    if (userSave.isLogin()) {
+                        webView.stopLoading();
+                        userSave.updateToSave();
+                        finish();
+                    }
                 }
             }
         });
