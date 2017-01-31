@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
  */
 
 public class AppItem {
+    long id;
     Bitmap icon;
     String name;
     String packageName;
@@ -23,8 +24,9 @@ public class AppItem {
     String lastUpdate;
     String status;
 
-    public AppItem(Bitmap icon, String name, String packageName, String version, String size, String apiVersion,
+    public AppItem(long id, Bitmap icon, String name, String packageName, String version, String size, String apiVersion,
                    String type, String tag, String author, String downloads, String creator, String updater, String lastUpdate, String status) {
+        this.id = id;
         this.icon = icon;
         this.name = name;
         this.packageName = packageName;
@@ -39,6 +41,14 @@ public class AppItem {
         this.updater = updater;
         this.lastUpdate = lastUpdate;
         this.status = status;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public Bitmap getIcon() {

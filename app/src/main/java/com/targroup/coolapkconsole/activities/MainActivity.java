@@ -1,5 +1,7 @@
 package com.targroup.coolapkconsole.activities;
 
+import java.util.ArrayList;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -21,10 +23,13 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import com.targroup.coolapkconsole.R;
+import com.targroup.coolapkconsole.model.AppItem;
 import com.targroup.coolapkconsole.utils.JsoupUtil;
 import com.targroup.coolapkconsole.view.BezelImageView;
 
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 public class MainActivity extends AppCompatActivity {
     Toolbar mToolbar;
@@ -40,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private String mUserName;
     private String mAvatarUrl;
     private Bitmap mAvatar;
+
+    private ArrayList<AppItem> mAppsList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,6 +133,40 @@ public class MainActivity extends AppCompatActivity {
                 mImageViewUserAvatar.setImageBitmap(mAvatar);
             }
         }
-
     }
+    /*
+    // Fetch app list
+    try {
+        Elements mAppListElements = mAppListDocument.select("tr[id^=data-row--]");
+        for (Element element:mAppListElements) {
+            Elements tabElements = element.select("td[class=mdl-data-table__cell--non-numeric]");
+            long id = Long.valueOf(element.id().split("--")[1]);
+            Bitmap icon = ImageLoader.getInstance().loadImageSync(element.select("img[style=width: 36px;]").get(0).attr("src"),new DisplayImageOptions.Builder().cacheOnDisk(true).build());
+            String name = element.select("a[href*=/do?c=apk&m=edit]").text();
+            String packageName = JsoupUtil.getDocument("developer.coolapk.com/do?c=apk&m=edit&id="+id,true).select("input[name=apkname]").val();
+            String version = tabElements.get(1).text();
+            String size = null;
+            String apiVersion = null;
+            for (Element detailsElement:element.select("span[class=mdl-color-text--grey]")) {
+                if (size == null) {
+                    size = detailsElement.text();
+                } else {
+                    apiVersion = detailsElement.text();
+                }
+            }
+            String type = element.select("a[href^=/do?c=apk&m=list&apkType=]").text();
+            String tag = element.select("a[href^=/do?c=apk&m=list&catid=]").text();
+            String author = element.select("a[href^=/do?c=apk&m=list&developerName=]").text();
+            String downloads = tabElements.get(3).text();
+            String creator = element.select("a[href^=/do?c=apk&m=list&creatorName=]").text();
+            String updater = element.select("a[href^=/do?c=apk&m=list&updaterName=]").text();
+            String lastUpdate = tabElements.get(5).text();
+            String status = tabElements.get(6).text();
+            item = new AppItem(id,icon,name,packageName,version,size,apiVersion,type,tag,author,downloads,creator,updater,lastUpdate,status);
+            mAppsList.add(item);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    */
 }
