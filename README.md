@@ -2,8 +2,8 @@
 Mobile-friendly Coolapk develop console
 
 ### LICENSE
-**NEVER TRY TO DO SECONDARY PACKAGING.**  
-**请不要尝试二次打包。**  
+**NEVER TRY TO SECONDARILY PACKAGE, WHICH GOES AGAINST THE GNU GENERAL PUBLIC LICENSE.**  
+**请不要尝试进行违反 GNU GPL 协议的二次打包。**  
 TaRGroup owns complete copyright and control of this project.  
 TaRGroup 拥有该项目的完整著作权和控制权。  
 Besides the GNU GENERAL PUBLIC LICENSE has legal validity in all countries and locales.  
