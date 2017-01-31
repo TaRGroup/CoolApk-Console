@@ -94,11 +94,6 @@ public class MainActivity extends AppCompatActivity {
         mTextViewUserEmail = (TextView)header.findViewById(R.id.material_drawer_account_header_email);
 
         mListView = (ListView)findViewById(R.id.list);
-        // TODO:例子加载数据
-        mAppsList.add(new AppItem(0,null, "Name-1", "Pkg", "1.0", "1", "1", "Type", "Tag", "Author",
-                "Downloads", "Creator", "Updater", "LastUpdate", "Status"));
-        mAppsList.add(new AppItem(1,null, "Name-2", "Pkg", "1.0", "1", "1", "Type", "Tag", "Author",
-                "Downloads", "Creator", "Updater", "LastUpdate", "Status"));
         mAdapter = new AppListAdapter();
         mListView.setAdapter(mAdapter);
 
@@ -123,7 +118,43 @@ public class MainActivity extends AppCompatActivity {
                 mAvatar = ImageLoader.getInstance().loadImageSync(mAvatarUrl,
                         new DisplayImageOptions.Builder()
                 .cacheOnDisk(true).build());
-                return null;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return e;
+            }
+            // Fetch app list
+            try {
+                List<AppItem> list = new ArrayList<>();
+                Elements mAppListElements = mAppListDocument.select("tr[id^=data-row--]");
+                for (Element element:mAppListElements) {
+                    AppItem item;
+                    Elements tabElements = element.select("td[class^=mdl-data-table__cell--non-numeric]");
+                    long id = Long.valueOf(element.id().split("--")[1]);
+                    Bitmap icon = ImageLoader.getInstance().loadImageSync(element.select("img[style=width: 36px;]").get(0).attr("src"),new DisplayImageOptions.Builder().cacheOnDisk(true).build());
+                    String name = element.select("a[href*=/do?c=apk&m=edit]").text().replace(" 版本 统计", "");
+                    String packageName = JsoupUtil.getDocument("developer.coolapk.com/do?c=apk&m=edit&id="+id,true).select("input[name=apkname]").val();
+                    String version = tabElements.get(1).text();
+                    String size = null;
+                    String apiVersion = null;
+                    for (Element detailsElement:element.select("span[class=mdl-color-text--grey]")) {
+                        if (size == null) {
+                            size = detailsElement.text();
+                        } else {
+                            apiVersion = detailsElement.text();
+                        }
+                    }
+                    String type = element.select("a[href^=/do?c=apk&m=list&apkType=]").text();
+                    String tag = element.select("a[href^=/do?c=apk&m=list&catid=]").text();
+                    String author = element.select("a[href^=/do?c=apk&m=list&developerName=]").text();
+                    String downloads = tabElements.get(3).text();
+                    String creator = element.select("a[href^=/do?c=apk&m=list&creatorName=]").text();
+                    String updater = element.select("a[href^=/do?c=apk&m=list&updaterName=]").text();
+                    String lastUpdate = tabElements.get(5).text();
+                    String status = tabElements.get(6).text();
+                    item = new AppItem(id,icon,name,packageName,version,size,apiVersion,type,tag,author,downloads,creator,updater,lastUpdate,status);
+                    list.add(item);
+                }
+                return list;
             } catch (Exception e) {
                 e.printStackTrace();
                 return e;
@@ -138,18 +169,26 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute (Object o) {
             findViewById(R.id.progress).setVisibility(View.GONE);
             if (o != null) {
-                new AlertDialog.Builder(MainActivity.this, R.style.AppTheme)
-                        .setMessage(R.string.err_login)
-                        .setCancelable(false)
-                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //finish();
-                            }
-                        }).show();
-            } else {
-                mTextViewUserName.setText(mUserName);
-                mImageViewUserAvatar.setImageBitmap(mAvatar);
+                if (o instanceof Exception) {
+                    new AlertDialog.Builder(MainActivity.this, R.style.AppTheme)
+                            .setMessage(R.string.err_login)
+                            .setCancelable(false)
+                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //finish();
+                                }
+                            }).show();
+                } else if (o instanceof List) {
+                    mTextViewUserName.setText(mUserName);
+                    mImageViewUserAvatar.setImageBitmap(mAvatar);
+                    mAppsList.clear();
+                    mAdapter.notifyDataSetChanged();
+                    for (AppItem item : ((List<AppItem>)o)) {
+                        mAppsList.add(item);
+                        mAdapter.notifyDataSetChanged();
+                    }
+                }
             }
         }
 
@@ -172,42 +211,8 @@ public class MainActivity extends AppCompatActivity {
             icon.setImageBitmap(item.getIcon());
             title.setText(item.getName());
             subtitle.setText(item.getStatus());
-            context.setText(item.getAuthor());
+            context.setText(getString(R.string.apk_item_context, item.getDownloads()));
             return convertView;
         }
     }
-    /*
-    // Fetch app list
-    try {
-        Elements mAppListElements = mAppListDocument.select("tr[id^=data-row--]");
-        for (Element element:mAppListElements) {
-            Elements tabElements = element.select("td[class=mdl-data-table__cell--non-numeric]");
-            long id = Long.valueOf(element.id().split("--")[1]);
-            Bitmap icon = ImageLoader.getInstance().loadImageSync(element.select("img[style=width: 36px;]").get(0).attr("src"),new DisplayImageOptions.Builder().cacheOnDisk(true).build());
-            String name = element.select("a[href*=/do?c=apk&m=edit]").text();
-            String packageName = JsoupUtil.getDocument("developer.coolapk.com/do?c=apk&m=edit&id="+id,true).select("input[name=apkname]").val();
-            String version = tabElements.get(1).text();
-            String size = null;
-            String apiVersion = null;
-            for (Element detailsElement:element.select("span[class=mdl-color-text--grey]")) {
-                if (size == null) {
-                    size = detailsElement.text();
-                } else {
-                    apiVersion = detailsElement.text();
-                }
-            }
-            String type = element.select("a[href^=/do?c=apk&m=list&apkType=]").text();
-            String tag = element.select("a[href^=/do?c=apk&m=list&catid=]").text();
-            String author = element.select("a[href^=/do?c=apk&m=list&developerName=]").text();
-            String downloads = tabElements.get(3).text();
-            String creator = element.select("a[href^=/do?c=apk&m=list&creatorName=]").text();
-            String updater = element.select("a[href^=/do?c=apk&m=list&updaterName=]").text();
-            String lastUpdate = tabElements.get(5).text();
-            String status = tabElements.get(6).text();
-            item = new AppItem(id,icon,name,packageName,version,size,apiVersion,type,tag,author,downloads,creator,updater,lastUpdate,status);
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-    */
 }

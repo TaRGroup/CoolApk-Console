@@ -19,6 +19,7 @@ import android.support.annotation.Nullable;
 
 import com.targroup.coolapkconsole.R;
 import com.targroup.coolapkconsole.utils.JsoupUtil;
+import com.targroup.coolapkconsole.utils.Util;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -83,7 +84,11 @@ public class SplashActivity extends Activity {
             try {
                 Document loginDocument = JsoupUtil.getDocument("developer.coolapk.com", true);
                 Elements cardElements = JsoupUtil.select(loginDocument, "div[class=mdl-card__supporting-text]");
-                if (cardElements.size() > 0 && "你还没有登录，请先登录！".equals(cardElements.text())) {
+                String alertText = cardElements.text();
+                if (cardElements.size() > 0 && "你还没有登录，请先登录！".equals(alertText)) {
+                    return Boolean.FALSE;
+                } else if ("你没有权限登录开发者中心，请先申请开发者认证！".equals(alertText)) {
+                    Util.clearCookies(getApplicationContext());
                     return Boolean.FALSE;
                 } else {
                     return Boolean.TRUE;

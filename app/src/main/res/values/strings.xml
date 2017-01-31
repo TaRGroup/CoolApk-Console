@@ -4,4 +4,5 @@
     <string name="err_login">Cannot login at this time, please try again later.</string>
     <string name="err_get_list">Cannot get app list at this time, please try again later.</string>
     <string name="auth">Login to CoolApk</string>
+    <string name="apk_item_context">%1$s Downloads</string>
 </resources>
