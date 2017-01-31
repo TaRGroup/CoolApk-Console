@@ -1,27 +1,30 @@
 package com.targroup.coolapkconsole.model;
 
 import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Created by rachel on 17-1-30.
  * Just a app object.
+ * @author Rachel
  */
 
-public class AppItem {
-    Bitmap icon;
-    String name;
-    String packageName;
-    String version;
-    String size;
-    String apiVersion;
-    String type;
-    String tag;
-    String author;
-    String downloads;
-    String creator;
-    String updater;
-    String lastUpdate;
-    String status;
+public class AppItem implements Parcelable{
+    private Bitmap icon;
+    private String name;
+    private String packageName;
+    private String version;
+    private String size;
+    private String apiVersion;
+    private String type;
+    private String tag;
+    private String author;
+    private String downloads;
+    private String creator;
+    private String updater;
+    private String lastUpdate;
+    private String status;
 
     public AppItem(Bitmap icon, String name, String packageName, String version, String size, String apiVersion,
                    String type, String tag, String author, String downloads, String creator, String updater, String lastUpdate, String status) {
@@ -40,6 +43,35 @@ public class AppItem {
         this.lastUpdate = lastUpdate;
         this.status = status;
     }
+
+    protected AppItem(Parcel in) {
+        icon = in.readParcelable(Bitmap.class.getClassLoader());
+        name = in.readString();
+        packageName = in.readString();
+        version = in.readString();
+        size = in.readString();
+        apiVersion = in.readString();
+        type = in.readString();
+        tag = in.readString();
+        author = in.readString();
+        downloads = in.readString();
+        creator = in.readString();
+        updater = in.readString();
+        lastUpdate = in.readString();
+        status = in.readString();
+    }
+
+    public static final Creator<AppItem> CREATOR = new Creator<AppItem>() {
+        @Override
+        public AppItem createFromParcel(Parcel in) {
+            return new AppItem(in);
+        }
+
+        @Override
+        public AppItem[] newArray(int size) {
+            return new AppItem[size];
+        }
+    };
 
     public Bitmap getIcon() {
         return icon;
@@ -151,5 +183,28 @@ public class AppItem {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(icon, flags);
+        dest.writeString(name);
+        dest.writeString(packageName);
+        dest.writeString(version);
+        dest.writeString(size);
+        dest.writeString(apiVersion);
+        dest.writeString(type);
+        dest.writeString(tag);
+        dest.writeString(author);
+        dest.writeString(downloads);
+        dest.writeString(creator);
+        dest.writeString(updater);
+        dest.writeString(lastUpdate);
+        dest.writeString(status);
     }
 }
