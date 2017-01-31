@@ -1,7 +1,5 @@
 package com.targroup.coolapkconsole.activities;
 
-import java.util.ArrayList;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -9,9 +7,15 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -31,6 +35,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
     Toolbar mToolbar;
     DrawerLayout mDrawerLayout;
@@ -46,7 +53,10 @@ public class MainActivity extends AppCompatActivity {
     private String mAvatarUrl;
     private Bitmap mAvatar;
 
-    private ArrayList<AppItem> mAppsList;
+    private ListView mListView;
+    private AppListAdapter mAdapter;
+    private List<AppItem> mAppsList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +92,15 @@ public class MainActivity extends AppCompatActivity {
         mImageViewUserAvatar = (BezelImageView)header.findViewById(R.id.material_drawer_account_header_current);
         mTextViewUserName = (TextView)header.findViewById(R.id.material_drawer_account_header_name);
         mTextViewUserEmail = (TextView)header.findViewById(R.id.material_drawer_account_header_email);
+
+        mListView = (ListView)findViewById(R.id.list);
+        // TODO:例子加载数据
+        mAppsList.add(new AppItem(null, "Name-1", "Pkg", "1.0", "1", "1", "Type", "Tag", "Author",
+                "Downloads", "Creator", "Updater", "LastUpdate", "Status"));
+        mAppsList.add(new AppItem(null, "Name-2", "Pkg", "1.0", "1", "1", "Type", "Tag", "Author",
+                "Downloads", "Creator", "Updater", "LastUpdate", "Status"));
+        mAdapter = new AppListAdapter();
+        mListView.setAdapter(mAdapter);
 
         // Init Data Now!
         mLoadInfoTask = new LoadInfoTask();
@@ -133,6 +152,29 @@ public class MainActivity extends AppCompatActivity {
                 mImageViewUserAvatar.setImageBitmap(mAvatar);
             }
         }
+
+    }
+    private class AppListAdapter extends ArrayAdapter<AppItem> {
+        AppListAdapter () {
+            super(MainActivity.this, 0, mAppsList);
+        }
+        @Override
+        public @NonNull View getView(int position, @Nullable View convertView,
+                                     @NonNull ViewGroup parent) {
+            if (convertView == null) {
+                convertView = getLayoutInflater().inflate(R.layout.item_app, null);
+            }
+            AppItem item = mAppsList.get(position);
+            ImageView icon = (ImageView)convertView.findViewById(R.id.item_icon);
+            TextView title = (TextView)convertView.findViewById(R.id.item_title);
+            TextView subtitle = (TextView)convertView.findViewById(R.id.item_subtitle);
+            TextView context = (TextView)convertView.findViewById(R.id.item_context);
+            icon.setImageBitmap(item.getIcon());
+            title.setText(item.getName());
+            subtitle.setText(item.getStatus());
+            context.setText(item.getAuthor());
+            return convertView;
+        }
     }
     /*
     // Fetch app list
@@ -163,7 +205,6 @@ public class MainActivity extends AppCompatActivity {
             String lastUpdate = tabElements.get(5).text();
             String status = tabElements.get(6).text();
             item = new AppItem(id,icon,name,packageName,version,size,apiVersion,type,tag,author,downloads,creator,updater,lastUpdate,status);
-            mAppsList.add(item);
         }
     } catch (Exception e) {
         e.printStackTrace();
