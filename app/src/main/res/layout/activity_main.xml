@@ -38,8 +38,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <ListView
+                android:padding="8dp"
                 android:divider="@null"
-                android:dividerHeight="0dp"
+                android:dividerHeight="4dp"
                 android:id="@+id/list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
