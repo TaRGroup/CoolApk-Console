@@ -1,52 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="128dp"
-    android:layout_margin="16dp"
-    android:background="?android:selectableItemBackground"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardUseCompatPadding="true">
-    <LinearLayout
-        android:padding="8dp"
-        android:orientation="horizontal"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="128dp"
-        android:gravity="center_vertical">
-        <ImageView
-            android:id="@+id/item_icon"
-            android:maxHeight="100dp"
-            android:maxWidth="100dp"
-            android:src="@mipmap/ic_launcher"
-            android:layout_width="100dp"
-            android:layout_height="100dp" />
+        android:layout_margin="4dp"
+        android:foreground="?android:selectableItemBackground"
+        android:clickable="true"
+        app:cardUseCompatPadding="true">
         <LinearLayout
-            android:layout_margin="16dp"
-            android:orientation="vertical"
+            android:padding="8dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="128dp"
             android:gravity="center_vertical"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent">
-            <TextView
-                android:id="@+id/item_title"
-                android:text="Title"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textSize="24sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/item_subtitle"
-                android:text="Subtitle"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                android:textSize="20sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/item_context"
-                android:text="Context"
-                android:textSize="16sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            android:layout_gravity="center_vertical">
+            <ImageView
+                android:id="@+id/item_icon"
+                android:maxHeight="72dp"
+                android:maxWidth="72dp"
+                android:src="@mipmap/ic_launcher"
+                android:layout_width="100dp"
+                android:layout_height="100dp" />
+            <LinearLayout
+                android:layout_margin="16dp"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/item_title"
+                    android:text="Title"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:textSize="20sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/item_subtitle"
+                    android:text="Subtitle"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:textSize="18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/item_context"
+                    android:text="Context"
+                    android:textSize="14sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-</android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView>
+</FrameLayout>

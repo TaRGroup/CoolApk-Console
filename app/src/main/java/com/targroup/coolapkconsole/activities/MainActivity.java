@@ -10,6 +10,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Toast;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -47,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
     private Document mAppListDocument;
     private BezelImageView mImageViewUserAvatar;
     private TextView mTextViewUserName;
-    private TextView mTextViewUserEmail;
     private SwipeRefreshLayout mSwipeRefresh;
 
     private LoadInfoTask mLoadInfoTask;
@@ -94,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
         View header = mNavigationView.getHeaderView(0);
         mImageViewUserAvatar = (BezelImageView)header.findViewById(R.id.material_drawer_account_header_current);
         mTextViewUserName = (TextView)header.findViewById(R.id.material_drawer_account_header_name);
-        mTextViewUserEmail = (TextView)header.findViewById(R.id.material_drawer_account_header_email);
 
         mListView = (ListView)findViewById(R.id.list);
         mAdapter = new AppListAdapter();
@@ -226,6 +226,8 @@ public class MainActivity extends AppCompatActivity {
             title.setText(item.getName());
             subtitle.setText(item.getStatus());
             context.setText(getString(R.string.apk_item_context, item.getDownloads()));
+            // TODO:here, set up detail activity and enter it.
+            // TODO:because the ripple effect of CardView, you can only set clicking listeners for CardViews.
             return convertView;
         }
     }
