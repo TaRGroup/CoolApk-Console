@@ -6,8 +6,8 @@ Mobile-friendly Coolapk develop console
 **请不要尝试二次打包。**  
 TaRGroup owns complete copyright and control of this project.  
 TaRGroup 拥有该项目的完整著作权和控制权。  
-Besides the GNU GENERAL PUBLIC LICENSE has legal validity.  
-除此之外， GNU GPL 协议具有法律效力。  
+Besides the GNU GENERAL PUBLIC LICENSE has legal validity in all countries and locales.  
+除此之外， GNU GPL 协议在所有国家和地区均具有法律效力。  
 **TaRGroup WILL USE ALL MEANS TO FIGHT WITH THIEVES WHO STEAL OUR RESULT.**  
 **TaRGroup 会竭尽全力与窃取我们成果的小偷斗争。**
 ```
