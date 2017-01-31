@@ -95,9 +95,9 @@ public class MainActivity extends AppCompatActivity {
 
         mListView = (ListView)findViewById(R.id.list);
         // TODO:例子加载数据
-        mAppsList.add(new AppItem(null, "Name-1", "Pkg", "1.0", "1", "1", "Type", "Tag", "Author",
+        mAppsList.add(new AppItem(0,null, "Name-1", "Pkg", "1.0", "1", "1", "Type", "Tag", "Author",
                 "Downloads", "Creator", "Updater", "LastUpdate", "Status"));
-        mAppsList.add(new AppItem(null, "Name-2", "Pkg", "1.0", "1", "1", "Type", "Tag", "Author",
+        mAppsList.add(new AppItem(1,null, "Name-2", "Pkg", "1.0", "1", "1", "Type", "Tag", "Author",
                 "Downloads", "Creator", "Updater", "LastUpdate", "Status"));
         mAdapter = new AppListAdapter();
         mListView.setAdapter(mAdapter);
