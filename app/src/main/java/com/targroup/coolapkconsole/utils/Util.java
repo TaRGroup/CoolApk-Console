@@ -1,6 +1,7 @@
 package com.targroup.coolapkconsole.utils;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
@@ -10,6 +11,14 @@ import android.webkit.CookieSyncManager;
  */
 
 public class Util {
+    public static int[] buildMaterialColors () {
+        return new int[]{
+                Color.parseColor("#FFC93437")
+                , Color.parseColor("#FF375BF1")
+                , Color.parseColor("#FFF7D23E")
+                , Color.parseColor("#FF34A350")
+        };
+    }
     /**
      * @see <a href="http://stackoverflow.com/questions/28998241/how-to-clear-cookies-and-cache-of-webview-on-android-when-not-in-webview" />
      * @param context

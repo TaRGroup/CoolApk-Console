@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -29,6 +30,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.targroup.coolapkconsole.R;
 import com.targroup.coolapkconsole.model.AppItem;
 import com.targroup.coolapkconsole.utils.JsoupUtil;
+import com.targroup.coolapkconsole.utils.Util;
 import com.targroup.coolapkconsole.view.BezelImageView;
 
 import org.jsoup.nodes.Document;
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private BezelImageView mImageViewUserAvatar;
     private TextView mTextViewUserName;
     private TextView mTextViewUserEmail;
+    private SwipeRefreshLayout mSwipeRefresh;
 
     private LoadInfoTask mLoadInfoTask;
 
@@ -96,7 +99,17 @@ public class MainActivity extends AppCompatActivity {
         mListView = (ListView)findViewById(R.id.list);
         mAdapter = new AppListAdapter();
         mListView.setAdapter(mAdapter);
-
+        mSwipeRefresh = (SwipeRefreshLayout)findViewById(R.id.swipe);
+        mSwipeRefresh.setColorSchemeColors(Util.buildMaterialColors());
+        mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
+        refresh();
+    }
+    private void refresh () {
         // Init Data Now!
         mLoadInfoTask = new LoadInfoTask();
         mLoadInfoTask.execute();
@@ -163,11 +176,12 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute () {
-            findViewById(R.id.progress).setVisibility(View.VISIBLE);
+            mSwipeRefresh.setRefreshing(true);
         }
         @Override
+        @SuppressWarnings("unchecked")
         protected void onPostExecute (Object o) {
-            findViewById(R.id.progress).setVisibility(View.GONE);
+            mSwipeRefresh.setRefreshing(false);
             if (o != null) {
                 if (o instanceof Exception) {
                     new AlertDialog.Builder(MainActivity.this, R.style.AppTheme)
