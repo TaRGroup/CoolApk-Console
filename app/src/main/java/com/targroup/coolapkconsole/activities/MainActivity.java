@@ -7,9 +7,11 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.Toast;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -30,7 +32,9 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import com.targroup.coolapkconsole.R;
+import com.targroup.coolapkconsole.fragments.AboutFragment;
 import com.targroup.coolapkconsole.model.AppItem;
+import com.targroup.coolapkconsole.model.UserSave;
 import com.targroup.coolapkconsole.utils.JsoupUtil;
 import com.targroup.coolapkconsole.utils.Util;
 import com.targroup.coolapkconsole.view.BezelImageView;
@@ -60,6 +64,12 @@ public class MainActivity extends AppCompatActivity {
     private ListView mListView;
     private AppListAdapter mAdapter;
     private List<AppItem> mAppsList = new ArrayList<>();
+    private List<AppItem> mQueryList = new ArrayList<>();
+
+    int mMaxPage = 1;
+    int mLoadedPage = 0;
+    int mScrollState;
+    String mQueryText = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,12 +117,75 @@ public class MainActivity extends AppCompatActivity {
                 refresh();
             }
         });
+        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                mScrollState = scrollState;
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if(mMaxPage == mLoadedPage && mScrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE ) {
+                    if (mSwipeRefresh.isRefreshing())
+                        return;
+                    if (mLoadInfoTask != null && !mLoadInfoTask.isCancelled())
+                        return;
+                    mLoadInfoTask = new LoadInfoTask();
+                    mLoadInfoTask.execute(mLoadedPage + 1);
+                };
+            }
+        });
+        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                mDrawerLayout.closeDrawers();
+                if (mSwipeRefresh.isRefreshing())
+                    return false;
+                if (item.getItemId() == R.id.action_about
+                        || item.getItemId() == R.id.action_logout) {
+                    switch (item.getItemId()) {
+                        case R.id.action_about :
+                            new AboutFragment().show(getSupportFragmentManager(), "About");
+                            break;
+                        case R.id.action_logout :
+                            UserSave.logout(MainActivity.this);
+                            finish();
+                            break;
+                    }
+                    return false;
+                }
+                switch (item.getItemId()) {
+                    case R.id.action_all :
+                        mQueryText = "";
+                        break;
+                    case R.id.action_draft :
+                        mQueryText = "草稿";
+                        break;
+                    case R.id.action_deleted :
+                        mQueryText = "已下架";
+                        break;
+                    case R.id.action_new :
+                        mQueryText = "新上架";
+                        break;
+                    case R.id.action_shelves :
+                        mQueryText = "已发布";
+                        break;
+                    case R.id.action_waiting:
+                        mQueryText = "待审核";
+                        break;
+                }
+                query();
+                return false;
+            }
+        });
         refresh();
     }
     private void refresh () {
+        mAppsList.clear();
+        query();
         // Init Data Now!
         mLoadInfoTask = new LoadInfoTask();
-        mLoadInfoTask.execute();
+        mLoadInfoTask.execute(0);
     }
     @Override
     public void onDestroy () {
@@ -120,57 +193,68 @@ public class MainActivity extends AppCompatActivity {
             mLoadInfoTask.cancel(true);
         super.onDestroy();
     }
-    private class LoadInfoTask extends AsyncTask<Void, Void, Object> {
+    private class LoadInfoTask extends AsyncTask<Integer, Void, Object> {
         @Override
-        protected Object doInBackground(Void... params) {
+        protected Object doInBackground(Integer... params) {
+            int requestPage = params[0];
             try {
-                mAppListDocument = JsoupUtil.getDocument("developer.coolapk.com/do?c=apk&m=myList", true);
-                mAvatarUrl = mAppListDocument.select("img[class=ex-drawer__header-avatar]").get(0)
-                        .attr("src");
-                mUserName = mAppListDocument.select("span[class=ex-drawer__header-username]").text();
-                mAvatar = ImageLoader.getInstance().loadImageSync(mAvatarUrl,
-                        new DisplayImageOptions.Builder()
-                .cacheOnDisk(true).build());
+                mAppListDocument = JsoupUtil.getDocument("developer.coolapk.com/do?c=apk&m=myList&p=" + requestPage, true);
+                if (requestPage == 0) {
+                    mAvatarUrl = mAppListDocument.select("img[class=ex-drawer__header-avatar]").get(0)
+                            .attr("src");
+                    mUserName = mAppListDocument.select("span[class=ex-drawer__header-username]").text();
+                    mAvatar = ImageLoader.getInstance().loadImageSync(mAvatarUrl,
+                            new DisplayImageOptions.Builder()
+                                    .cacheOnDisk(true).build());
+                    String max = mAppListDocument.select("td[class=mdl-data-table__cell--non-numeric]")
+                            .select("[colspan=10]").text();
+                    String[] s = max.split("，");
+                    mMaxPage = Integer.parseInt(s[2].substring(1, s[2].length() - 1));
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 return e;
             }
             // Fetch app list
-            try {
-                List<AppItem> list = new ArrayList<>();
-                Elements mAppListElements = mAppListDocument.select("tr[id^=data-row--]");
-                for (Element element:mAppListElements) {
-                    AppItem item;
-                    Elements tabElements = element.select("td[class^=mdl-data-table__cell--non-numeric]");
-                    long id = Long.valueOf(element.id().split("--")[1]);
-                    Bitmap icon = ImageLoader.getInstance().loadImageSync(element.select("img[style=width: 36px;]").get(0).attr("src"),new DisplayImageOptions.Builder().cacheOnDisk(true).build());
-                    String name = element.select("a[href*=/do?c=apk&m=edit]").text().replace(" 版本 统计", "");
-                    String packageName = JsoupUtil.getDocument("developer.coolapk.com/do?c=apk&m=edit&id="+id,true).select("input[name=apkname]").val();
-                    String version = tabElements.get(1).text();
-                    String size = null;
-                    String apiVersion = null;
-                    for (Element detailsElement:element.select("span[class=mdl-color-text--grey]")) {
-                        if (size == null) {
-                            size = detailsElement.text();
-                        } else {
-                            apiVersion = detailsElement.text();
+            if (requestPage <= mMaxPage) {
+                try {
+                    List<AppItem> list = new ArrayList<>();
+                    Elements mAppListElements = mAppListDocument.select("tr[id^=data-row--]");
+                    for (Element element:mAppListElements) {
+                        AppItem item;
+                        Elements tabElements = element.select("td[class^=mdl-data-table__cell--non-numeric]");
+                        long id = Long.valueOf(element.id().split("--")[1]);
+                        Bitmap icon = ImageLoader.getInstance().loadImageSync(element.select("img[style=width: 36px;]").get(0).attr("src"),new DisplayImageOptions.Builder().cacheOnDisk(true).build());
+                        String name = element.select("a[href*=/do?c=apk&m=edit]").text().replace(" 版本 统计", "");
+                        String packageName = JsoupUtil.getDocument("developer.coolapk.com/do?c=apk&m=edit&id="+id,true).select("input[name=apkname]").val();
+                        String version = tabElements.get(1).text();
+                        String size = null;
+                        String apiVersion = null;
+                        for (Element detailsElement:element.select("span[class=mdl-color-text--grey]")) {
+                            if (size == null) {
+                                size = detailsElement.text();
+                            } else {
+                                apiVersion = detailsElement.text();
+                            }
                         }
+                        String type = element.select("a[href^=/do?c=apk&m=list&apkType=]").text();
+                        String tag = element.select("a[href^=/do?c=apk&m=list&catid=]").text();
+                        String author = element.select("a[href^=/do?c=apk&m=list&developerName=]").text();
+                        String downloads = tabElements.get(3).text();
+                        String creator = element.select("a[href^=/do?c=apk&m=list&creatorName=]").text();
+                        String updater = element.select("a[href^=/do?c=apk&m=list&updaterName=]").text();
+                        String lastUpdate = tabElements.get(5).text();
+                        String status = tabElements.get(6).text();
+                        item = new AppItem(id,icon,name,packageName,version,size,apiVersion,type,tag,author,downloads,creator,updater,lastUpdate,status);
+                        list.add(item);
                     }
-                    String type = element.select("a[href^=/do?c=apk&m=list&apkType=]").text();
-                    String tag = element.select("a[href^=/do?c=apk&m=list&catid=]").text();
-                    String author = element.select("a[href^=/do?c=apk&m=list&developerName=]").text();
-                    String downloads = tabElements.get(3).text();
-                    String creator = element.select("a[href^=/do?c=apk&m=list&creatorName=]").text();
-                    String updater = element.select("a[href^=/do?c=apk&m=list&updaterName=]").text();
-                    String lastUpdate = tabElements.get(5).text();
-                    String status = tabElements.get(6).text();
-                    item = new AppItem(id,icon,name,packageName,version,size,apiVersion,type,tag,author,downloads,creator,updater,lastUpdate,status);
-                    list.add(item);
+                    return list;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return e;
                 }
-                return list;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return e;
+            } else {
+                return new ArrayList<>();
             }
         }
 
@@ -197,11 +281,9 @@ public class MainActivity extends AppCompatActivity {
                     mTextViewUserName.setText(mUserName);
                     mImageViewUserAvatar.setImageBitmap(mAvatar);
                     mAppsList.clear();
-                    mAdapter.notifyDataSetChanged();
-                    for (AppItem item : ((List<AppItem>)o)) {
-                        mAppsList.add(item);
-                        mAdapter.notifyDataSetChanged();
-                    }
+                    mAppsList.addAll((List<AppItem>)o);
+                    query();
+                    mLoadedPage++;
                 }
             }
         }
@@ -209,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private class AppListAdapter extends ArrayAdapter<AppItem> {
         AppListAdapter () {
-            super(MainActivity.this, 0, mAppsList);
+            super(MainActivity.this, 0, mQueryList);
         }
         @Override
         public @NonNull View getView(int position, @Nullable View convertView,
@@ -217,7 +299,7 @@ public class MainActivity extends AppCompatActivity {
             if (convertView == null) {
                 convertView = getLayoutInflater().inflate(R.layout.item_app, null);
             }
-            AppItem item = mAppsList.get(position);
+            AppItem item = mQueryList.get(position);
             ImageView icon = (ImageView)convertView.findViewById(R.id.item_icon);
             TextView title = (TextView)convertView.findViewById(R.id.item_title);
             TextView subtitle = (TextView)convertView.findViewById(R.id.item_subtitle);
@@ -229,6 +311,24 @@ public class MainActivity extends AppCompatActivity {
             // TODO:here, set up detail activity and enter it.
             // TODO:because the ripple effect of CardView, you can only set clicking listeners for CardViews.
             return convertView;
+        }
+    }
+
+    private void query () {
+        mQueryList.clear();
+        mAdapter.notifyDataSetChanged();
+        if (mQueryText.equals("")) {
+            for (AppItem item : mAppsList) {
+                mQueryList.add(item);
+                mAdapter.notifyDataSetChanged();
+            }
+        } else {
+            for (AppItem item : mAppsList) {
+                if (item.getStatus().equals(mQueryText)) {
+                    mQueryList.add(item);
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
         }
     }
 }

@@ -5,4 +5,14 @@
     <string name="err_get_list">Cannot get app list at this time, please try again later.</string>
     <string name="auth">Login to CoolApk</string>
     <string name="apk_item_context">%1$s Downloads</string>
+
+    <string name="action_waiting">Waiting</string>
+    <string name="action_deleted">Off the shelf</string>
+    <string name="action_draft">Draft</string>
+    <string name="action_all">All</string>
+    <string name="action_new">New</string>
+    <string name="action_shelves">Shelves</string>
+    
+    <string name="action_logout">Logout</string>
+    <string name="action_about">About</string>
 </resources>

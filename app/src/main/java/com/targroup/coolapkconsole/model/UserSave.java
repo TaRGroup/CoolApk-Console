@@ -1,8 +1,10 @@
 package com.targroup.coolapkconsole.model;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.targroup.coolapkconsole.App;
+import com.targroup.coolapkconsole.utils.Util;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -75,5 +77,15 @@ public class UserSave {
         map.put("username", mUserName);
         map.put("token", mToken);
         return map;
+    }
+
+    public static void logout (Context context) {
+        UserSave userSave = new UserSave();
+        userSave.mToken = "";
+        userSave.mUserName = "";
+        userSave.mSESSID = "";
+        userSave.mUID = "";
+        userSave.updateToSave();
+        Util.clearCookies(context.getApplicationContext());
     }
 }

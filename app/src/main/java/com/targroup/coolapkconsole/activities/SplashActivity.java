@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.support.annotation.Nullable;
 
 import com.targroup.coolapkconsole.R;
+import com.targroup.coolapkconsole.model.UserSave;
 import com.targroup.coolapkconsole.utils.JsoupUtil;
 import com.targroup.coolapkconsole.utils.Util;
 
@@ -88,7 +89,7 @@ public class SplashActivity extends Activity {
                 if (cardElements.size() > 0 && "你还没有登录，请先登录！".equals(alertText)) {
                     return Boolean.FALSE;
                 } else if ("你没有权限登录开发者中心，请先申请开发者认证！".equals(alertText)) {
-                    Util.clearCookies(getApplicationContext());
+                    UserSave.logout(SplashActivity.this);
                     return Boolean.FALSE;
                 } else {
                     return Boolean.TRUE;

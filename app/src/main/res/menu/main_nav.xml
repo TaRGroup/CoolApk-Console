@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/action_all"
+            android:title="@string/action_all"
+            android:icon="@drawable/ic_archive_black_24dp" />
+        <item android:id="@+id/action_shelves"
+            android:title="@string/action_shelves"
+            android:icon="@drawable/ic_check_circle_black_24dp" />
+        <item android:id="@+id/action_new"
+            android:title="@string/action_new"
+            android:icon="@drawable/ic_new_releases_black_24dp" />
+        <item android:id="@+id/action_waiting"
+            android:title="@string/action_waiting"
+            android:icon="@drawable/ic_query_builder_black_24dp" />
+        <item android:id="@+id/action_draft"
+            android:title="@string/action_draft"
+            android:icon="@drawable/ic_mode_edit_black_24dp" />
+        <item android:id="@+id/action_deleted"
+            android:title="@string/action_deleted"
+            android:icon="@drawable/ic_query_builder_black_24dp" />
+    </group>
+    <item android:id="@+id/action_logout"
+        android:title="@string/action_logout" />
+    <item android:id="@+id/action_about"
+        android:title="@string/action_about" />
+</menu>
