@@ -1,6 +1,9 @@
 package com.targroup.coolapkconsole.fragments;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -43,6 +46,15 @@ public class AboutFragment extends AppCompatDialogFragment {
             @Override
             public void onRefresh() {
                 webView.reload();
+            }
+        });
+        view.findViewById(R.id.layout_open_in_browser).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/TaRGroup/CoolApk-Console")));
+                } catch (ActivityNotFoundException ignore) {}
             }
         });
         return view;

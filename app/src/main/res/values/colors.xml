@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#348438</color>
     <color name="colorAccent">#4CAF50</color>
     <!-- <color name="material_drawer_primary">@color/materialize_primary</color> -->
+    <color name="colorMaterialBlue">#4285f4</color>
 </resources>

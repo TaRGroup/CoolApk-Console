@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">CoolApk Console</string>
     <string name="action_login">Login</string>
-    <string name="err_login">Cannot login at this time, please try again later.</string>
+    <string name="err_login">Cannot login at this time, please try again later (Or your account didn\'t have developer console permissoin)</string>
     <string name="err_get_list">Cannot get app list at this time, please try again later.</string>
     <string name="auth">Login to CoolApk</string>
     <string name="apk_item_context">%1$s Downloads</string>
@@ -15,4 +15,5 @@
     
     <string name="action_logout">Logout</string>
     <string name="action_about">About</string>
+    <string name="action_open_in_browser">Open in browser</string>
 </resources>

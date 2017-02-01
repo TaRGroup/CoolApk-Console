@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">酷安控制台</string>
+    <string name="auth">登录酷安账户</string>
+    <string name="err_get_list">此时无法获取应用列表，请稍后再试</string>
+    <string name="err_login">此时无法登录，请稍后再试（或您的账户没有开发者控制台访问权限）</string>
+    <string name="apk_item_context">%1$s下载</string>
+    <string name="action_waiting">待审核</string>
+    <string name="action_shelves">已上架</string>
+    <string name="action_new">新上架</string>
+    <string name="action_logout">注销</string>
+    <string name="action_login">登录</string>
+    <string name="action_about">关于</string>
+    <string name="action_all">全部</string>
+    <string name="action_deleted">已下架</string>
+    <string name="action_draft">草稿</string>
+    <string name="action_open_in_browser">在浏览器打开</string>
+</resources>
