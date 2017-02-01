@@ -2,6 +2,7 @@ package com.targroup.coolapkconsole.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -141,8 +142,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 mDrawerLayout.closeDrawers();
-                if (mSwipeRefresh.isRefreshing())
-                    return false;
                 if (item.getItemId() == R.id.action_about
                         || item.getItemId() == R.id.action_logout) {
                     switch (item.getItemId()) {
@@ -151,11 +150,14 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         case R.id.action_logout :
                             UserSave.logout(MainActivity.this);
+                            startActivity(new Intent(MainActivity.this, SplashActivity.class));
                             finish();
                             break;
                     }
                     return false;
                 }
+                if (mSwipeRefresh.isRefreshing())
+                    return false;
                 switch (item.getItemId()) {
                     case R.id.action_all :
                         mQueryText = "";

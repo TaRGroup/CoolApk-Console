@@ -42,7 +42,7 @@ public class AuthActivity extends AppCompatActivity {
                     if (userSave.isLogin()) {
                         userSave.updateToSave();
                         webView.stopLoading();
-                        startActivity(new Intent(AuthActivity.this, MainActivity.class));
+                        //startActivity(new Intent(AuthActivity.this, MainActivity.class));
                         finish();
                     }
                 }

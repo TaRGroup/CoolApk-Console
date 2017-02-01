@@ -117,7 +117,6 @@ public class SplashActivity extends Activity {
                             @Override
                             public void onClick(View v) {
                                 startActivity(new Intent(SplashActivity.this, AuthActivity.class));
-                                finish();
                             }
                         });
                     } else {
