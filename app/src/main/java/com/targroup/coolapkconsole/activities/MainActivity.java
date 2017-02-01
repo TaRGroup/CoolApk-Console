@@ -12,8 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AbsListView;
-import android.widget.Toast;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -45,6 +43,10 @@ import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * @see <a href="http://blog.csdn.net/zcmain/article/details/14111141" />
+ */
 
 public class MainActivity extends AppCompatActivity {
     Toolbar mToolbar;
@@ -132,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
                         return;
                     mLoadInfoTask = new LoadInfoTask();
                     mLoadInfoTask.execute(mLoadedPage + 1);
-                };
+                }
             }
         });
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {

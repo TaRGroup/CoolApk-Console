@@ -39,3 +39,6 @@ captures/
 # Keystore files
 *.jks
 /.idea/
+
+# Google Service Json Files
+google-services.json
