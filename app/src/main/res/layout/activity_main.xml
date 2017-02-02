@@ -23,7 +23,8 @@
                 android:layout_height="wrap_content"
                 app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                android:background="?attr/colorPrimary"/>
+                android:background="?attr/colorPrimary"
+                android:paddingTop="@dimen/material_toolbar_padding_top"/>
 
         </android.support.design.widget.AppBarLayout>
         <!-- 内容显示布局 -->

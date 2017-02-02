@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,9 +22,12 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.CardView;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -94,6 +96,8 @@ public class MainActivity extends AppCompatActivity {
         mToolbar.setTitle(getTitle());
         setSupportActionBar(mToolbar);
         mDrawerLayout = (DrawerLayout)findViewById(R.id.activity_main);
+        mDrawerLayout.setFitsSystemWindows(true);
+        mDrawerLayout.setClipToPadding(false);
         mNavigationView = (NavigationView)findViewById(R.id.navigation_view);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.app_name, R.string.app_name);
@@ -158,24 +162,31 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (mSwipeRefresh.isRefreshing())
                     return false;
+                android.content.res.Resources res = getResources();
                 switch (item.getItemId()) {
                     case R.id.action_all :
                         mQueryText = "";
+                        item.setChecked(true);
+                        break;
+                    case R.id.action_shelved :
+                        mQueryText = "已发布";
+                        item.setChecked(true);
                         break;
                     case R.id.action_draft :
                         mQueryText = "草稿";
+                        item.setChecked(true);
                         break;
                     case R.id.action_deleted :
                         mQueryText = "已下架";
+                        item.setChecked(true);
                         break;
                     case R.id.action_new :
                         mQueryText = "新上架";
-                        break;
-                    case R.id.action_shelves :
-                        mQueryText = "已发布";
+                        item.setChecked(true);
                         break;
                     case R.id.action_waiting:
                         mQueryText = "待审核";
+                        item.setChecked(true);
                         break;
                 }
                 query();
@@ -303,7 +314,8 @@ public class MainActivity extends AppCompatActivity {
             if (convertView == null) {
                 convertView = getLayoutInflater().inflate(R.layout.item_app, null);
             }
-            AppItem item = mQueryList.get(position);
+            final AppItem item = mQueryList.get(position);
+            CardView card = (CardView)convertView.findViewById(R.id.item_card);
             ImageView icon = (ImageView)convertView.findViewById(R.id.item_icon);
             TextView title = (TextView)convertView.findViewById(R.id.item_title);
             TextView subtitle = (TextView)convertView.findViewById(R.id.item_subtitle);
@@ -312,8 +324,15 @@ public class MainActivity extends AppCompatActivity {
             title.setText(item.getName());
             subtitle.setText(item.getStatus());
             context.setText(getString(R.string.apk_item_context, item.getDownloads()));
-            // TODO:here, set up detail activity and enter it.
-            // TODO:because the ripple effect of CardView, you can only set clicking listeners for CardViews.
+            // Card's clicking listener
+            card.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // TODO:setup detail activity.
+                    long id = item.getId();
+                    Toast.makeText(MainActivity.this,"id:"+id,Toast.LENGTH_SHORT).show();
+                }
+            });
             return convertView;
         }
     }
@@ -328,7 +347,7 @@ public class MainActivity extends AppCompatActivity {
             }
         } else {
             for (AppItem item : mAppsList) {
-                if (item.getStatus().equals(mQueryText)) {
+                if (item.getStatus().matches(mQueryText)) {
                     mQueryList.add(item);
                     mAdapter.notifyDataSetChanged();
                 }

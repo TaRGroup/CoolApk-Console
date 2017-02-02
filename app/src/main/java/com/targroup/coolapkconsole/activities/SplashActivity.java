@@ -56,6 +56,8 @@ public class SplashActivity extends Activity {
                     public void onAnimationEnd(Animation a) {
                         findViewById(R.id.splash_context).setVisibility(View.VISIBLE);
                         findViewById(R.id.splash_context).setAnimation(AnimationUtils.loadAnimation(SplashActivity.this,R.anim.anim_splash_button));
+                        mTaskCheckLogin = new CheckLoginTask();
+                        mTaskCheckLogin.execute();
                     }
 
                     @Override
@@ -76,8 +78,6 @@ public class SplashActivity extends Activity {
     @Override
     public void onStart () {
         super.onStart();
-        mTaskCheckLogin = new CheckLoginTask();
-        mTaskCheckLogin.execute();
     }
     private class CheckLoginTask extends AsyncTask<Void, Void, Object> {
         @Override
@@ -126,7 +126,7 @@ public class SplashActivity extends Activity {
                                 startActivity(new Intent(SplashActivity.this, MainActivity.class));
                                 finish();
                             }
-                        },2000);
+                        },1000);
                     }
                 } else if (o instanceof Exception) {
                     new AlertDialog.Builder(SplashActivity.this, R.style.AppTheme)

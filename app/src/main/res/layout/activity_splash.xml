@@ -6,8 +6,8 @@
         android:layout_centerInParent="true"
         android:id="@+id/splash_background"
         android:background="@color/colorPrimary"
-        android:layout_width="15dp"
-        android:layout_height="15dp" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
     <RelativeLayout
         android:visibility="gone"
         android:id="@+id/splash_context"

@@ -23,4 +23,6 @@
     <dimen name="material_drawer_account_header_dropdown">22dp</dimen>
     <dimen name="material_drawer_account_header_dropdown_padding">5dp</dimen>
     <dimen name="material_drawer_account_header_dropdown_margin_bottom">14dp</dimen>
+    <!-- A padding for the Toolbar to be transparent in KitKat. Below and upper should be 0dp. -->
+    <dimen name="material_toolbar_padding_top">0dp</dimen>
 </resources>

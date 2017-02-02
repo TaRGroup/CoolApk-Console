@@ -6,7 +6,7 @@
     <string name="err_login">此时无法登录，请稍后再试（或您的账户没有开发者控制台访问权限）</string>
     <string name="apk_item_context">%1$s下载</string>
     <string name="action_waiting">待审核</string>
-    <string name="action_shelves">已上架</string>
+    <string name="action_shelved">已上架</string>
     <string name="action_new">新上架</string>
     <string name="action_logout">注销</string>
     <string name="action_login">登录</string>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- A padding for the Toolbar to be transparent in KitKat. Below and upper should be 0dp. -->
+    <dimen name="material_toolbar_padding_top">0dp</dimen>
+</resources>
