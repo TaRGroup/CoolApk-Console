@@ -36,10 +36,12 @@ import com.targroup.coolapkconsole.R;
 import com.targroup.coolapkconsole.fragments.AboutFragment;
 import com.targroup.coolapkconsole.model.AppItem;
 import com.targroup.coolapkconsole.model.UserSave;
+import com.targroup.coolapkconsole.utils.ACache;
 import com.targroup.coolapkconsole.utils.JsoupUtil;
 import com.targroup.coolapkconsole.utils.Util;
 import com.targroup.coolapkconsole.view.BezelImageView;
 
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -75,12 +77,13 @@ public class MainActivity extends AppCompatActivity {
     int mLoadedPage = 0;
     int mScrollState;
     String mQueryText = "";
+    private ACache mCache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mCache = ACache.get(this);
         bindViews();
     }
     @Override
@@ -121,6 +124,8 @@ public class MainActivity extends AppCompatActivity {
         mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                // Clear cache
+                mCache.clear();
                 refresh();
             }
         });
@@ -208,12 +213,20 @@ public class MainActivity extends AppCompatActivity {
             mLoadInfoTask.cancel(true);
         super.onDestroy();
     }
+
+    private static final String CACHE_DOCUMENT_KEY = "document";
     private class LoadInfoTask extends AsyncTask<Integer, Void, Object> {
         @Override
         protected Object doInBackground(Integer... params) {
             int requestPage = params[0];
             try {
-                mAppListDocument = JsoupUtil.getDocument("developer.coolapk.com/do?c=apk&m=myList&p=" + requestPage, true);
+                String html = mCache.getAsString(CACHE_DOCUMENT_KEY);
+                if (html != null) {
+                    mAppListDocument = Jsoup.parse(mCache.getAsString(CACHE_DOCUMENT_KEY));
+                } else {
+                    mAppListDocument = JsoupUtil.getDocument("developer.coolapk.com/do?c=apk&m=myList&p=" + requestPage, true);
+                    mCache.put(CACHE_DOCUMENT_KEY, mAppListDocument.html());
+                }
                 if (requestPage == 0) {
                     mAvatarUrl = mAppListDocument.select("img[class=ex-drawer__header-avatar]").get(0)
                             .attr("src");
@@ -239,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
                         AppItem item;
                         Elements tabElements = element.select("td[class^=mdl-data-table__cell--non-numeric]");
                         long id = Long.valueOf(element.id().split("--")[1]);
-                        Bitmap icon = ImageLoader.getInstance().loadImageSync(element.select("img[style=width: 36px;]").get(0).attr("src"),new DisplayImageOptions.Builder().cacheOnDisk(true).build());
+                        String icon = element.select("img[style=width: 36px;]").get(0).attr("src");
                         String name = element.select("a[href*=/do?c=apk&m=edit]").text().replace(" 版本 统计", "");
                         String packageName = JsoupUtil.getDocument("developer.coolapk.com/do?c=apk&m=edit&id="+id,true).select("input[name=apkname]").val();
                         String version = tabElements.get(1).text();
@@ -320,7 +333,8 @@ public class MainActivity extends AppCompatActivity {
             TextView title = (TextView)convertView.findViewById(R.id.item_title);
             TextView subtitle = (TextView)convertView.findViewById(R.id.item_subtitle);
             TextView context = (TextView)convertView.findViewById(R.id.item_context);
-            icon.setImageBitmap(item.getIcon());
+            ImageLoader.getInstance().displayImage(item.getIcon(), icon,
+                    new DisplayImageOptions.Builder().cacheOnDisk(true).build());
             title.setText(item.getName());
             subtitle.setText(item.getStatus());
             context.setText(getString(R.string.apk_item_context, item.getDownloads()));
@@ -328,9 +342,8 @@ public class MainActivity extends AppCompatActivity {
             card.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // TODO:setup detail activity.
-                    long id = item.getId();
-                    Toast.makeText(MainActivity.this,"id:"+id,Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(MainActivity.this, DetailActivity.class)
+                    .putExtra(DetailActivity.EXTRA_APP_ITEM, item));
                 }
             });
             return convertView;

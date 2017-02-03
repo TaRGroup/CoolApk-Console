@@ -6,11 +6,33 @@ import android.os.Build;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
+import com.targroup.coolapkconsole.BuildConfig;
+
 /**
  * Created by Administrator on 2017/1/31.
  */
 
 public class Util {
+    public static enum PublishState {
+        PUBLISH_STATE_STABLE,
+        PUBLISH_STATE_BETA,
+        PUBLISH_STATE_ALPHA,
+        PUBLISH_STATE_DEBUG
+    }
+    public static PublishState getPublishState () {
+        if (BuildConfig.DEBUG)
+            return PublishState.PUBLISH_STATE_DEBUG;
+        switch (BuildConfig.BUILD_TYPE) {
+            case "stable" :
+                return PublishState.PUBLISH_STATE_STABLE ;
+            case "beta" :
+                return PublishState.PUBLISH_STATE_BETA ;
+            case "alpha" :
+                return PublishState.PUBLISH_STATE_ALPHA ;
+            default:
+                return PublishState.PUBLISH_STATE_STABLE;
+        }
+    }
     public static int[] buildMaterialColors () {
         return new int[]{
                 Color.parseColor("#FFC93437")

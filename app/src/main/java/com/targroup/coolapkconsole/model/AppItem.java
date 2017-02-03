@@ -1,8 +1,8 @@
 package com.targroup.coolapkconsole.model;
 
-import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
+
 
 /**
  * Created by rachel on 17-1-30.
@@ -12,7 +12,7 @@ import android.os.Parcelable;
 
 public class AppItem implements Parcelable{
     private long id;
-    private Bitmap icon;
+    private String icon;
     private String name;
     private String packageName;
     private String version;
@@ -27,7 +27,7 @@ public class AppItem implements Parcelable{
     private String lastUpdate;
     private String status;
 
-    public AppItem(long id, Bitmap icon, String name, String packageName, String version, String size, String apiVersion,
+    public AppItem(long id, String icon, String name, String packageName, String version, String size, String apiVersion,
                    String type, String tag, String author, String downloads, String creator, String updater, String lastUpdate, String status) {
         this.id = id;
         this.icon = icon;
@@ -47,7 +47,8 @@ public class AppItem implements Parcelable{
     }
 
     protected AppItem(Parcel in) {
-        icon = in.readParcelable(Bitmap.class.getClassLoader());
+        id = in.readLong();
+        icon = in.readString();
         name = in.readString();
         packageName = in.readString();
         version = in.readString();
@@ -83,11 +84,11 @@ public class AppItem implements Parcelable{
         this.id = id;
     }
 
-    public Bitmap getIcon() {
+    public String getIcon() {
         return icon;
     }
 
-    public void setIcon(Bitmap icon) {
+    public void setIcon(String icon) {
         this.icon = icon;
     }
 
@@ -202,7 +203,8 @@ public class AppItem implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeParcelable(icon, flags);
+        dest.writeLong(id);
+        dest.writeString(icon);
         dest.writeString(name);
         dest.writeString(packageName);
         dest.writeString(version);

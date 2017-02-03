@@ -17,6 +17,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    productFlavors {
+        stable {
+            manifestPlaceholders = [PUBLISH_STATE: "stable"]
+        }
+        beta {
+            manifestPlaceholders = [PUBLISH_STATE: "beta"]
+        }
+        alpha {
+            manifestPlaceholders = [PUBLISH_STATE: "alpha"]
+        }
+    }
 }
 
 dependencies {
