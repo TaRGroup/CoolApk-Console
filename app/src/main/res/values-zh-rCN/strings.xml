@@ -15,4 +15,11 @@
     <string name="action_deleted">已下架</string>
     <string name="action_draft">草稿</string>
     <string name="action_open_in_browser">在浏览器打开</string>
+    <string name="title_activity_detail">详情</string>
+
+    <string name="action_launch">启动</string>
+    <string name="action_show_in_coolapk">在酷安中查看</string>
+    <string name="action_save">保存</string>
+    <string name="action_publish">发布</string>
+
 </resources>
