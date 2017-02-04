@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:key="PUSH_CHOICE"
+        android:title="@string/settings_push"
+        android:summary="@string/settings_push_summary"
+        android:defaultValue="gcm"
+        android:entries="@array/settings_push_entries"
+        android:entryValues="@array/settings_push_entryvalues" />
+</PreferenceScreen>

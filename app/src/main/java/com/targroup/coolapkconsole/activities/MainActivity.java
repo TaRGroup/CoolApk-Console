@@ -152,8 +152,12 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 mDrawerLayout.closeDrawers();
                 if (item.getItemId() == R.id.action_about
-                        || item.getItemId() == R.id.action_logout) {
+                        || item.getItemId() == R.id.action_logout
+                        || item.getItemId() == R.id.action_settings) {
                     switch (item.getItemId()) {
+                        case R.id.action_settings :
+                            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                            break;
                         case R.id.action_about :
                             new AboutFragment().show(getSupportFragmentManager(), "About");
                             break;
@@ -167,7 +171,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (mSwipeRefresh.isRefreshing())
                     return false;
-                android.content.res.Resources res = getResources();
                 switch (item.getItemId()) {
                     case R.id.action_all :
                         mQueryText = "";

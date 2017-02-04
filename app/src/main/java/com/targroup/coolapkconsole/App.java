@@ -12,6 +12,7 @@ import com.google.android.gms.analytics.Tracker;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.targroup.coolapkconsole.utils.Util;
 
 /**
  * Created by Administrator on 2017/1/30.
@@ -66,6 +67,7 @@ public class App extends Application {
 
             }
         });
+        Util.PushUtil.startPush(this);
     }
     private Tracker mTracker;
 

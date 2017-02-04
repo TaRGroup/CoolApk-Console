@@ -20,6 +20,10 @@ public class UserSave {
     private String mUID;
     private String mSESSID;
 
+    public String getUID () {
+        return mUID;
+    }
+
     public void updateToSave () {
         SharedPreferences.Editor editor = App.getPrefs().edit();
         editor.putString("LOGIN-TOKEN", mToken);
