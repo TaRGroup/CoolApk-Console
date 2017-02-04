@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -37,13 +38,58 @@
 
     <include layout="@layout/context_detail" />
 
-    <android.support.design.widget.FloatingActionButton
+    <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/detail_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
-        app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
-
+        android:layout_gravity="bottom|end">
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/menu_item_launch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_input_black_24dp"
+            fab:fab_colorNormal="#FFFFFF"
+            fab:fab_colorPressed="@android:color/darker_gray"
+            fab:fab_size="mini"
+            fab:fab_label="@string/action_launch" />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/menu_item_show_in_coolapk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_open_in_new_black_24dp"
+            fab:fab_size="mini"
+            fab:fab_colorNormal="#FFFFFF"
+            fab:fab_colorPressed="@android:color/darker_gray"
+            fab:fab_label="@string/action_show_in_coolapk" />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/menu_item_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_save_black_24dp"
+            fab:fab_size="mini"
+            fab:fab_colorNormal="#FFFFFF"
+            fab:fab_colorPressed="@android:color/darker_gray"
+            fab:fab_label="@string/action_save" />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/menu_item_publish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_unarchive_black_24dp"
+            fab:fab_size="mini"
+            fab:fab_colorNormal="#FFFFFF"
+            fab:fab_colorPressed="@android:color/darker_gray"
+            fab:fab_label="@string/action_publish" />
+    </com.github.clans.fab.FloatingActionMenu>
+    <FrameLayout
+        android:id="@+id/layout_progress"
+        android:background="#d8ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>
