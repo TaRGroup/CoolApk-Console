@@ -1,16 +1,16 @@
 package com.targroup.coolapkconsole.activities;
 
-import android.content.ActivityNotFoundException;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.content.Intent;
-import android.content.res.ColorStateList;
+import android.net.Uri;
 import android.view.MenuItem;
 import android.view.View;
+import android.content.Intent;
+import android.content.ActivityNotFoundException;
+import android.content.res.Resources;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.graphics.Bitmap;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
@@ -20,6 +20,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -43,10 +44,18 @@ public class DetailActivity extends AppCompatActivity {
     private TextView mName;
     private TextView mStatus;
     private TextView mPackage;
+    private TextView mID;
+    private TextView mCreator;
     private Bitmap icon = null;
     private View mContentView;
+    private TextView mVersion;
+    private TextView mSize;
+    private TextView mDownloads;
+    private TextView mUpdater;
 
     private AppDetail mDetail;
+
+    private Resources res;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,16 +73,26 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         bindViews();
+        refreshDetail();
     }
     public void bindViews(){
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         CollapsingToolbarLayout toolbarLayout = (CollapsingToolbarLayout)findViewById(R.id.toolbar_layout);
         FloatingActionMenu fab = (FloatingActionMenu)findViewById(R.id.detail_fab);
 
-        mIcon = (ImageView)findViewById(R.id.detail_icon);
-        mName = (TextView) findViewById(R.id.detail_name);
-        mStatus = (TextView)findViewById(R.id.detail_status);
-        mPackage = (TextView)findViewById(R.id.detail_packageName);
+        mIcon = (ImageView)     findViewById(R.id.detail_icon);
+        mName = (TextView)      findViewById(R.id.detail_name);
+        mStatus = (TextView)    findViewById(R.id.detail_status);
+        mPackage = (TextView)   findViewById(R.id.detail_packageName);
+        mID = (TextView)        findViewById(R.id.detail_id);
+        mCreator = (TextView)   findViewById(R.id.detail_creator);
+
+        mVersion = (TextView)   findViewById(R.id.detail_version);
+        mSize = (TextView)      findViewById(R.id.detail_size);
+        mDownloads = (TextView) findViewById(R.id.detail_downloads);
+        mUpdater = (TextView)   findViewById(R.id.detail_updater);
+
+        res = getResources();
 
         FloatingActionButton fabLaunch = (FloatingActionButton)findViewById(R.id.menu_item_launch);
         fabLaunch.setOnClickListener(new View.OnClickListener() {
@@ -96,7 +115,6 @@ public class DetailActivity extends AppCompatActivity {
 
         icon = ImageLoader.getInstance().loadImageSync(mAppItem.getIcon(),new DisplayImageOptions.Builder().cacheOnDisk(true).build());
         if (icon != null) {
-            // TODO:下一步这里应该做成类似 CoolApk 客户端那样， Collapsing 使用高斯模糊处理后的图标
             int color = Palette.from(icon).generate().getVibrantSwatch().getRgb();
             toolbarLayout.setBackgroundColor(color);
             //fab.setBackgroundTintList(ColorStateList.valueOf(Palette.from(icon).generate().getVibrantSwatch().getRgb()));
@@ -107,6 +125,8 @@ public class DetailActivity extends AppCompatActivity {
         mName.setText(mAppItem.getName());
         mStatus.setText(mAppItem.getStatus());
         mPackage.setText(mAppItem.getPackageName());
+        mID.setText(String.format(res.getString(R.string.detail_id),mAppItem.getId()));
+        mCreator.setText(String.format(res.getString(R.string.detail_creator),mAppItem.getCreator()));
 
         setSupportActionBar(toolbar);
         setTitle(mAppItem.getName());
@@ -115,7 +135,6 @@ public class DetailActivity extends AppCompatActivity {
         if (Util.getPublishState() != Util.PublishState.PUBLISH_STATE_STABLE) {
             Snackbar.make(toolbar, "ID:" + mAppItem.getId(), Snackbar.LENGTH_SHORT).show();
         }
-        refreshDetail();
     }
     private LoadDetailTask mLoadDetailTask;
     private void refreshDetail () {
@@ -173,6 +192,11 @@ public class DetailActivity extends AppCompatActivity {
         protected void onPostExecute (Object o) {
             findViewById(R.id.layout_progress).setVisibility(View.GONE);
             mContentView.setEnabled(true);
+
+            mVersion.setText(String.format(res.getString(R.string.detail_version),mAppItem.getVersion()));
+            mSize.setText(String.format(res.getString(R.string.detail_size),mAppItem.getSize()));
+            mDownloads.setText(String.format(res.getString(R.string.detail_downloads),mAppItem.getDownloads()));
+            mUpdater.setText(String.format(res.getString(R.string.detail_updater),mAppItem.getUpdater()));
         }
     }
 }

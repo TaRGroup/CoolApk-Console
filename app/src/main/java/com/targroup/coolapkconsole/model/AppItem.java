@@ -6,7 +6,7 @@ import android.os.Parcelable;
 
 /**
  * Created by rachel on 17-1-30.
- * Just a app object.
+ * Just an app object.
  * @author Rachel
  */
 
@@ -20,7 +20,6 @@ public class AppItem implements Parcelable{
     private String apiVersion;
     private String type;
     private String tag;
-    private String author;
     private String downloads;
     private String creator;
     private String updater;
@@ -28,7 +27,7 @@ public class AppItem implements Parcelable{
     private String status;
 
     public AppItem(long id, String icon, String name, String packageName, String version, String size, String apiVersion,
-                   String type, String tag, String author, String downloads, String creator, String updater, String lastUpdate, String status) {
+                   String type, String tag, String downloads, String creator, String updater, String lastUpdate, String status) {
         this.id = id;
         this.icon = icon;
         this.name = name;
@@ -38,7 +37,6 @@ public class AppItem implements Parcelable{
         this.apiVersion = apiVersion;
         this.type = type;
         this.tag = tag;
-        this.author = author;
         this.downloads = downloads;
         this.creator = creator;
         this.updater = updater;
@@ -56,7 +54,6 @@ public class AppItem implements Parcelable{
         apiVersion = in.readString();
         type = in.readString();
         tag = in.readString();
-        author = in.readString();
         downloads = in.readString();
         creator = in.readString();
         updater = in.readString();
@@ -148,14 +145,6 @@ public class AppItem implements Parcelable{
         this.tag = tag;
     }
 
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
     public String getDownloads() {
         return downloads;
     }
@@ -212,7 +201,6 @@ public class AppItem implements Parcelable{
         dest.writeString(apiVersion);
         dest.writeString(type);
         dest.writeString(tag);
-        dest.writeString(author);
         dest.writeString(downloads);
         dest.writeString(creator);
         dest.writeString(updater);

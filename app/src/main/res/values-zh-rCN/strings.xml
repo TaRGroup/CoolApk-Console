@@ -15,4 +15,21 @@
     <string name="action_deleted">已下架</string>
     <string name="action_draft">草稿</string>
     <string name="action_open_in_browser">在浏览器打开</string>
+    <string name="action_launch">启动</string>
+    <string name="action_publish">保存并发布</string>
+    <string name="action_restart">重启</string>
+    <string name="action_save">保存</string>
+    <string name="action_settings">设置</string>
+    <string name="action_show_in_coolapk">在酷安中查看</string>
+    <string name="detail_creator">发布者：%1$s</string>
+    <string name="detail_id">ID：%1$d</string>
+    <string name="detail_size">安装包大小：%1$s</string>
+    <string name="detail_updater">更新者：%1$s</string>
+    <string name="detail_version">版本号：%1$s</string>
+    <string name="settings_push">推送模式</string>
+    <string name="settings_push_summary">用于接收应用更新、评论消息</string>
+    <string name="title_activity_detail">详细信息</string>
+    <string name="toast_google_play_missing">你的设备看起来没有 Google Play Service ，推送有可能不成功。</string>
+    <string name="toast_need_restart">重启以应用更改</string>
+    <string name="detail_downloads">下载量：%1$s</string>
 </resources>
