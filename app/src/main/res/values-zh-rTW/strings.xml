@@ -35,4 +35,11 @@
     <string name="toast_need_restart">重啟應用程序以使更改生效</string>
     <string name="action_restart">立刻重啟</string>
     <string name="toast_google_play_missing">看起來你的設備沒有Google Play服務，推送可能會失敗</string>
+    
+    <string name="detail_id">ID: %1$d</string>
+    <string name="detail_creator">發佈者: %1$s</string>
+    <string name="detail_version">版本號: %1$s</string>
+    <string name="detail_size">安裝包大小: %1$s</string>
+    <string name="detail_downloads">下載量: %1$s</string>
+    <string name="detail_updater">更新者: %1$s</string>
 </resources>
