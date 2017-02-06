@@ -15,29 +15,6 @@
     <string name="action_deleted">已下架</string>
     <string name="action_draft">草稿</string>
     <string name="action_open_in_browser">在浏览器打开</string>
-<<<<<<< HEAD
-    <string name="title_activity_detail">详情</string>
-
-    <string name="action_launch">启动</string>
-    <string name="action_show_in_coolapk">在酷安中查看</string>
-    <string name="action_save">保存</string>
-    <string name="action_publish">发布</string>
-			<string name="settings_push">推送模式</string>
-    <string name="settings_push_summary">接收应用程序的更新和评价</string>
-    <array name="settings_push_entries">
-        <item>停用</item>
-        <item>GCM</item>
-        <item>云巴</item>
-    </array>
-    <array name="settings_push_entryvalues" translatable="false">
-        <item>disable</item>
-        <item>gcm</item>
-        <item>yunba</item>
-    </array>
-    <string name="toast_need_restart">重启应用程序来使设置生效</string>
-    <string name="action_restart">重新启动</string>
-    <string name="toast_google_play_missing">你的设备看起来好像没有Google Play服务，推送可能会失败</string>
-=======
     <string name="action_launch">启动</string>
     <string name="action_publish">保存并发布</string>
     <string name="action_restart">重启</string>
@@ -55,5 +32,4 @@
     <string name="toast_google_play_missing">你的设备看起来没有 Google Play Service ，推送有可能不成功。</string>
     <string name="toast_need_restart">重启以应用更改</string>
     <string name="detail_downloads">下载量：%1$s</string>
->>>>>>> branch 'master' of https://github.com/targroup/coolapk-console.git
 </resources>
