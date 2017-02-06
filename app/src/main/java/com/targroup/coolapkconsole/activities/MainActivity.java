@@ -258,6 +258,7 @@ public class MainActivity extends AppCompatActivity {
                         String icon = element.select("img[style=width: 36px;]").get(0).attr("src");
                         String name = element.select("a[href*=/do?c=apk&m=edit]").text().replace(" 版本 统计", "");
                         String packageName = JsoupUtil.getDocument("developer.coolapk.com/do?c=apk&m=edit&id="+id,true).select("input[name=apkname]").val();
+                        // TODO:修正惨烈的 version
                         String version = tabElements.get(1).text();
                         String size = null;
                         String apiVersion = null;
@@ -270,13 +271,12 @@ public class MainActivity extends AppCompatActivity {
                         }
                         String type = element.select("a[href^=/do?c=apk&m=list&apkType=]").text();
                         String tag = element.select("a[href^=/do?c=apk&m=list&catid=]").text();
-                        String author = element.select("a[href^=/do?c=apk&m=list&developerName=]").text();
                         String downloads = tabElements.get(3).text();
                         String creator = element.select("a[href^=/do?c=apk&m=list&creatorName=]").text();
                         String updater = element.select("a[href^=/do?c=apk&m=list&updaterName=]").text();
                         String lastUpdate = tabElements.get(5).text();
                         String status = tabElements.get(6).text();
-                        item = new AppItem(id,icon,name,packageName,version,size,apiVersion,type,tag,author,downloads,creator,updater,lastUpdate,status);
+                        item = new AppItem(id,icon,name,packageName,version,size,apiVersion,type,tag,downloads,creator,updater,lastUpdate,status);
                         list.add(item);
                     }
                     return list;

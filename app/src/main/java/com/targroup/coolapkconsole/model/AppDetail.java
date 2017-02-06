@@ -3,7 +3,9 @@ package com.targroup.coolapkconsole.model;
 import java.util.ArrayList;
 
 /**
- * Created by Administrator on 2017/2/4.
+ * Created by Trumeet on 2017/2/4.
+ * An object which can describe the app like in the detail page.
+ * @author Trumeet
  */
 
 public class AppDetail {

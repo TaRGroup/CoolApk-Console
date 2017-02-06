@@ -19,7 +19,7 @@
     <string name="title_activity_detail">Detail</string>
 
     <string name="action_launch">Launch</string>
-    <string name="action_show_in_coolapk">Show In Coolapk</string>
+    <string name="action_show_in_coolapk">Show In CoolApk</string>
     <string name="action_save">Save</string>
     <string name="action_publish">Publish</string>
     <string name="action_settings">Settings</string>
@@ -38,5 +38,12 @@
     </array>
     <string name="toast_need_restart">Restart application to apply changes</string>
     <string name="action_restart">Restart</string>
-    <string name="toast_google_play_missing">Your device look like mission Google Play service, push may be not success.</string>
+    <string name="toast_google_play_missing">Your device looks like missing Google Play service, push may not succeed.</string>
+
+    <string name="detail_id">ID: %1$d</string>
+    <string name="detail_creator">Creator: %1$s</string>
+    <string name="detail_version">Version: %1$s</string>
+    <string name="detail_size">Apk size: %1$s</string>
+    <string name="detail_downloads">Downloads: %1$s</string>
+    <string name="detail_updater">Updater: %1$s</string>
 </resources>
