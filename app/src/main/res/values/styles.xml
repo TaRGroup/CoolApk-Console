@@ -1,5 +1,5 @@
 <resources>
-    <style name="Base.AppTheme" parent="@style/Theme.AppCompat.Light">
+    <style name="Base.AppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
 

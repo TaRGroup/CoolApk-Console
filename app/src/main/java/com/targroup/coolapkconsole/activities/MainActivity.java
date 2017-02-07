@@ -258,8 +258,6 @@ public class MainActivity extends AppCompatActivity {
                         String icon = element.select("img[style=width: 36px;]").get(0).attr("src");
                         String name = element.select("a[href*=/do?c=apk&m=edit]").text().replace(" 版本 统计", "");
                         String packageName = JsoupUtil.getDocument("developer.coolapk.com/do?c=apk&m=edit&id="+id,true).select("input[name=apkname]").val();
-                        // TODO:修正惨烈的 version
-                        String version = tabElements.get(1).text();
                         String size = null;
                         String apiVersion = null;
                         for (Element detailsElement:element.select("span[class=mdl-color-text--grey]")) {
@@ -269,6 +267,9 @@ public class MainActivity extends AppCompatActivity {
                                 apiVersion = detailsElement.text();
                             }
                         }
+                        String version = null;
+                        if (name != null && size != null)
+                            version = tabElements.get(1).text().split(name)[1].split(size)[0].trim();
                         String type = element.select("a[href^=/do?c=apk&m=list&apkType=]").text();
                         String tag = element.select("a[href^=/do?c=apk&m=list&catid=]").text();
                         String downloads = tabElements.get(3).text();

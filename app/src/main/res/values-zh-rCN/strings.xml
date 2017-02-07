@@ -32,4 +32,5 @@
     <string name="toast_google_play_missing">你的设备看起来没有 Google Play Service ，推送有可能不成功。</string>
     <string name="toast_need_restart">重启以应用更改</string>
     <string name="detail_downloads">下载量：%1$s</string>
+    <string name="detail_last">上次更新：%1$s</string>
 </resources>

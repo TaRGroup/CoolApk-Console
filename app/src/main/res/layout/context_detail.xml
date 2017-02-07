@@ -108,6 +108,14 @@
                     android:layout_margin="4dp" />
 
                 <TextView
+                    android:id="@+id/detail_last"
+                    android:text="One day ago"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:layout_margin="4dp" />
+
+                <TextView
                     android:id="@+id/detail_downloads"
                     android:text="Downloads"
                     android:layout_width="match_parent"

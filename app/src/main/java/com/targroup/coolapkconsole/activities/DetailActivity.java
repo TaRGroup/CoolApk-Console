@@ -50,6 +50,7 @@ public class DetailActivity extends AppCompatActivity {
     private View mContentView;
     private TextView mVersion;
     private TextView mSize;
+    private TextView mLastUpdate;
     private TextView mDownloads;
     private TextView mUpdater;
 
@@ -89,6 +90,7 @@ public class DetailActivity extends AppCompatActivity {
 
         mVersion = (TextView)   findViewById(R.id.detail_version);
         mSize = (TextView)      findViewById(R.id.detail_size);
+        mLastUpdate = (TextView)findViewById(R.id.detail_last);
         mDownloads = (TextView) findViewById(R.id.detail_downloads);
         mUpdater = (TextView)   findViewById(R.id.detail_updater);
 
@@ -195,6 +197,7 @@ public class DetailActivity extends AppCompatActivity {
 
             mVersion.setText(String.format(res.getString(R.string.detail_version),mAppItem.getVersion()));
             mSize.setText(String.format(res.getString(R.string.detail_size),mAppItem.getSize()));
+            mLastUpdate.setText(String.format(res.getString(R.string.detail_last),mAppItem.getLastUpdate()));
             mDownloads.setText(String.format(res.getString(R.string.detail_downloads),mAppItem.getDownloads()));
             mUpdater.setText(String.format(res.getString(R.string.detail_updater),mAppItem.getUpdater()));
         }
