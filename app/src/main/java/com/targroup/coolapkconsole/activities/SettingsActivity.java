@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.targroup.coolapkconsole.R;
-import com.targroup.coolapkconsole.fragments.SettingsFragment;
 
 /**
  * Created by Trumeet on 2017/2/4.
@@ -18,7 +17,6 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getFragmentManager().beginTransaction().add(R.id.frame, new SettingsFragment()).commitAllowingStateLoss();
     }
     @Override
     public boolean onOptionsItemSelected (MenuItem item) {

@@ -22,8 +22,9 @@
             <ImageView
                 android:src="@mipmap/ic_launcher"
                 android:id="@+id/detail_icon"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="88dp"
+                android:layout_height="88dp"
+                android:layout_margin="12dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerInParent="true"/>
 
@@ -36,34 +37,29 @@
                 android:layout_margin="4dp">
 
                 <TextView
-                    android:id="@+id/detail_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="Name"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                    android:textSize="20sp"/>
-
-                <TextView
                     android:id="@+id/detail_status"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="Status"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:layout_marginBottom="2dp"/>
 
                 <TextView
                     android:id="@+id/detail_packageName"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="com.targroup.coolapkconsole"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp"
+                    android:layout_marginBottom="2dp"/>
 
                 <TextView
                     android:id="@+id/detail_id"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="10000"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp"
+                    android:layout_marginBottom="2dp"/>
 
                 <TextView
                     android:id="@+id/detail_creator"

@@ -25,6 +25,10 @@
     <string name="action_settings">Settings</string>
     <string name="settings_push">Push Mode</string>
     <string name="settings_push_summary">Receive app update and rate</string>
+    <string name="settings_ui">User Interface</string>
+    <string name="settings_ui_splashanim">Animation on boot</string>
+    <string name="settings_ui_splashanim_on">Enable scale animation</string>
+    <string name="settings_ui_splashanim_off">Disable scale animation</string>
 
     <array name="settings_push_entries">
         <item>Disable</item>

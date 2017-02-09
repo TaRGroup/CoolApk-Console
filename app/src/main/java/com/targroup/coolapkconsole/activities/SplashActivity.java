@@ -10,17 +10,16 @@ import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.TranslateAnimation;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.widget.Button;
+import android.preference.PreferenceManager;
 
 import android.support.annotation.Nullable;
 
 import com.targroup.coolapkconsole.R;
 import com.targroup.coolapkconsole.model.UserSave;
 import com.targroup.coolapkconsole.utils.JsoupUtil;
-import com.targroup.coolapkconsole.utils.Util;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -54,10 +53,7 @@ public class SplashActivity extends Activity {
 
                     @Override
                     public void onAnimationEnd(Animation a) {
-                        findViewById(R.id.splash_context).setVisibility(View.VISIBLE);
-                        findViewById(R.id.splash_context).setAnimation(AnimationUtils.loadAnimation(SplashActivity.this,R.anim.anim_splash_button));
-                        mTaskCheckLogin = new CheckLoginTask();
-                        mTaskCheckLogin.execute();
+                        execute();
                     }
 
                     @Override
@@ -65,7 +61,11 @@ public class SplashActivity extends Activity {
 
                     }
                 });
-                background.startAnimation(animation);
+                if (PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean("ui_splashanim",true))
+                    background.startAnimation(animation);
+                else
+                    execute();
+
             }
         });
     }
@@ -79,6 +79,14 @@ public class SplashActivity extends Activity {
     public void onStart () {
         super.onStart();
     }
+
+    private void execute(){
+        findViewById(R.id.splash_context).setVisibility(View.VISIBLE);
+        findViewById(R.id.splash_context).setAnimation(AnimationUtils.loadAnimation(SplashActivity.this,R.anim.anim_splash_button));
+        mTaskCheckLogin = new CheckLoginTask();
+        mTaskCheckLogin.execute();
+    }
+
     private class CheckLoginTask extends AsyncTask<Void, Void, Object> {
         @Override
         protected Object doInBackground(Void... params) {

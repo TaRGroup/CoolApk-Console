@@ -41,7 +41,6 @@ public class DetailActivity extends AppCompatActivity {
     private AppItem mAppItem;
 
     private ImageView mIcon;
-    private TextView mName;
     private TextView mStatus;
     private TextView mPackage;
     private TextView mID;
@@ -82,7 +81,6 @@ public class DetailActivity extends AppCompatActivity {
         FloatingActionMenu fab = (FloatingActionMenu)findViewById(R.id.detail_fab);
 
         mIcon = (ImageView)     findViewById(R.id.detail_icon);
-        mName = (TextView)      findViewById(R.id.detail_name);
         mStatus = (TextView)    findViewById(R.id.detail_status);
         mPackage = (TextView)   findViewById(R.id.detail_packageName);
         mID = (TextView)        findViewById(R.id.detail_id);
@@ -124,7 +122,6 @@ public class DetailActivity extends AppCompatActivity {
             fab.setMenuButtonColorPressed(color);
             mIcon.setImageBitmap(icon);
         }
-        mName.setText(mAppItem.getName());
         mStatus.setText(mAppItem.getStatus());
         mPackage.setText(mAppItem.getPackageName());
         mID.setText(String.format(res.getString(R.string.detail_id),mAppItem.getId()));
