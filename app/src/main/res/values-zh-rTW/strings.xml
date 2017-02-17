@@ -42,4 +42,8 @@
     <string name="detail_size">安裝包大小: %1$s</string>
     <string name="detail_downloads">下載量: %1$s</string>
     <string name="detail_updater">更新者: %1$s</string>
+    <string name="settings_ui">用户界面</string>
+    <string name="settings_ui_splashanim">启动时播放动画</string>
+    <string name="settings_ui_splashanim_on">启用缩放动画</string>
+    <string name="settings_ui_splashanim_off">禁用缩放动画</string>
 </resources>

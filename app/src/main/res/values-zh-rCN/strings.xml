@@ -5,6 +5,7 @@
     <string name="err_get_list">此时无法获取应用列表，请稍后再试</string>
     <string name="err_login">此时无法登录，请稍后再试（或您的账户没有开发者控制台访问权限）</string>
     <string name="apk_item_context">%1$s下载</string>
+
     <string name="action_waiting">待审核</string>
     <string name="action_shelved">已上架</string>
     <string name="action_new">新上架</string>
@@ -33,4 +34,8 @@
     <string name="toast_need_restart">重启以应用更改</string>
     <string name="detail_downloads">下载量：%1$s</string>
     <string name="detail_last">上次更新：%1$s</string>
+    <string name="settings_ui">用户界面</string>
+    <string name="settings_ui_splashanim">启动时播放动画</string>
+    <string name="settings_ui_splashanim_on">启用缩放动画</string>
+    <string name="settings_ui_splashanim_off">禁用缩放动画</string>
 </resources>
