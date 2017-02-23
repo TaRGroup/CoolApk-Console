@@ -115,11 +115,16 @@ public class DetailActivity extends AppCompatActivity {
 
         icon = ImageLoader.getInstance().loadImageSync(mAppItem.getIcon(),new DisplayImageOptions.Builder().cacheOnDisk(true).build());
         if (icon != null) {
-            int color = Palette.from(icon).generate().getVibrantSwatch().getRgb();
-            toolbarLayout.setBackgroundColor(color);
-            //fab.setBackgroundTintList(ColorStateList.valueOf(Palette.from(icon).generate().getVibrantSwatch().getRgb()));
-            fab.setMenuButtonColorNormal(color);
-            fab.setMenuButtonColorPressed(color);
+            Palette.Swatch swatch = Palette.from(icon).generate().getVibrantSwatch();
+            if (swatch != null) {
+                int color = swatch.getRgb();
+                toolbarLayout.setBackgroundColor(color);
+                toolbarLayout.setContentScrimColor(color);
+                toolbarLayout.setStatusBarScrimColor(color);
+                toolbar.setBackgroundColor(color);
+                fab.setMenuButtonColorNormal(color);
+                fab.setMenuButtonColorPressed(color);
+            }
             mIcon.setImageBitmap(icon);
         }
         mStatus.setText(mAppItem.getStatus());
