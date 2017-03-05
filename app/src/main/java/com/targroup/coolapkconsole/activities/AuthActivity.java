@@ -31,7 +31,7 @@ public class AuthActivity extends AppCompatActivity {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         webView.clearCache(true);
-        webView.loadUrl("https://account.coolapk.com/activity_auth/login?forward=http%3A%2F%2Fdeveloper.coolapk.com");
+        webView.loadUrl("https://account.coolapk.com/auth/login?forward=http%3A%2F%2Fdeveloper.coolapk.com");
         webView.setWebViewClient(new WebViewClient(){
             @Override
             public void onPageFinished(WebView view, String url) {
