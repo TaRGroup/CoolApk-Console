@@ -46,5 +46,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-analytics:9.2.0'
     compile 'com.google.android.gms:play-services-gcm:9.2.0'
     compile 'com.github.clans:fab:1.6.4'
+    compile 'com.github.blackfizz:eazegraph:1.2.2@aar'
+    compile 'com.nineoldandroids:library:2.4.0'
 }
 apply plugin: 'com.google.gms.google-services'

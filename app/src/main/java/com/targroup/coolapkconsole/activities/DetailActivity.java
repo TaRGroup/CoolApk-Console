@@ -31,6 +31,9 @@ import com.targroup.coolapkconsole.model.DownloadStatItem;
 import com.targroup.coolapkconsole.utils.JsoupUtil;
 import com.targroup.coolapkconsole.utils.Util;
 
+import org.eazegraph.lib.charts.ValueLineChart;
+import org.eazegraph.lib.models.ValueLinePoint;
+import org.eazegraph.lib.models.ValueLineSeries;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -53,6 +56,9 @@ public class DetailActivity extends AppCompatActivity {
     private TextView mLastUpdate;
     private TextView mDownloads;
     private TextView mUpdater;
+    private ValueLineChart mDownloadsChart;
+
+    private int mColor;
 
     private AppDetail mDetail;
 
@@ -93,6 +99,8 @@ public class DetailActivity extends AppCompatActivity {
         mDownloads = (TextView) findViewById(R.id.detail_downloads);
         mUpdater = (TextView)   findViewById(R.id.detail_updater);
 
+        mDownloadsChart = (ValueLineChart) findViewById(R.id.chart_downloads);
+
         res = getResources();
 
         FloatingActionButton fabLaunch = (FloatingActionButton)findViewById(R.id.menu_item_launch);
@@ -118,13 +126,13 @@ public class DetailActivity extends AppCompatActivity {
         if (icon != null) {
             Palette.Swatch swatch = Palette.from(icon).generate().getVibrantSwatch();
             if (swatch != null) {
-                int color = swatch.getRgb();
-                toolbarLayout.setBackgroundColor(color);
-                toolbarLayout.setContentScrimColor(color);
-                toolbarLayout.setStatusBarScrimColor(color);
-                toolbar.setBackgroundColor(color);
-                fab.setMenuButtonColorNormal(color);
-                fab.setMenuButtonColorPressed(color);
+                mColor = swatch.getRgb();
+                toolbarLayout.setBackgroundColor(mColor);
+                toolbarLayout.setContentScrimColor(mColor);
+                toolbarLayout.setStatusBarScrimColor(mColor);
+                toolbar.setBackgroundColor(mColor);
+                fab.setMenuButtonColorNormal(mColor);
+                fab.setMenuButtonColorPressed(mColor);
             }
             mIcon.setImageBitmap(icon);
         }
@@ -221,6 +229,17 @@ public class DetailActivity extends AppCompatActivity {
             mLastUpdate.setText(String.format(res.getString(R.string.detail_last),mAppItem.getLastUpdate()));
             mDownloads.setText(String.format(res.getString(R.string.detail_downloads),mAppItem.getDownloads()));
             mUpdater.setText(String.format(res.getString(R.string.detail_updater),mAppItem.getUpdater()));
+
+            ValueLineSeries series = new ValueLineSeries();
+            // 0xFF56B7F1
+            series.setColor(mColor);
+
+            for (DownloadStatItem item : mDetail.getmStats()) {
+                series.addPoint(new ValueLinePoint(item.getmDate(), Float.parseFloat(item.getmDownloads())));
+            }
+
+            mDownloadsChart.addSeries(series);
+            mDownloadsChart.startAnimation();
         }
     }
 }
