@@ -27,6 +27,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.targroup.coolapkconsole.R;
 import com.targroup.coolapkconsole.model.AppDetail;
 import com.targroup.coolapkconsole.model.AppItem;
+import com.targroup.coolapkconsole.model.DownloadStatItem;
 import com.targroup.coolapkconsole.utils.JsoupUtil;
 import com.targroup.coolapkconsole.utils.Util;
 
@@ -174,7 +175,24 @@ public class DetailActivity extends AppCompatActivity {
                 for (Element element : imageDiv) {
                     imageUrls.add(element.select("img").attr("src"));
                 }
+                Elements downloads = detailDoc.select("div[id^=apk_edit__tab-panel-3]");
+                Elements downloadsTr = downloads.select("tbody").get(0).select("tr");
                 mDetail = new AppDetail();
+                for (Element element : downloadsTr) {
+                    Elements td = element.select("td");
+                    DownloadStatItem item = new DownloadStatItem();
+                    item.setmDate(td.get(0).text());
+                    item.setmAppName(td.get(1).text());
+                    item.setmVersion(td.get(2).text());
+                    item.setmDownloads(td.get(3).text());
+                    item.setmDownloadsStation(td.get(3).text());
+                    item.setmDownloadsOutsideStation(td.get(4).text());
+                    item.setmDownloadsNew(td.get(5).text());
+                    item.setmInstalls(td.get(6).text());
+                    item.setmInstallsNew(td.get(7).text());
+                    item.setmSize(td.get(8).text());
+                    mDetail.getmStats().add(item);
+                }
                 mDetail.setType(type);
                 mDetail.setCatId(catid);
                 mDetail.setKeyWords(keywords.split(","));
@@ -183,6 +201,7 @@ public class DetailActivity extends AppCompatActivity {
                 mDetail.setLanguage(language);
                 return null;
             } catch (Exception e) {
+                e.printStackTrace();
                 return e;
             }
         }

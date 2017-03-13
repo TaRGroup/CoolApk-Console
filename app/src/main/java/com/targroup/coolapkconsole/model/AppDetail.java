@@ -13,7 +13,16 @@ public class AppDetail {
     private String mLanguage = "";
     private String mCatId = "";
     private String mDetail = "";
+    private ArrayList<DownloadStatItem> mStats = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
+
+    public ArrayList<DownloadStatItem> getmStats() {
+        return mStats;
+    }
+
+    public void setmStats(ArrayList<DownloadStatItem> mStats) {
+        this.mStats = mStats;
+    }
 
     public ArrayList<String> getImageUrls() {
         return mImageUrls;
