@@ -27,10 +27,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.CardView;
-import android.widget.Toast;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.bumptech.glide.Glide;
 
 import com.targroup.coolapkconsole.R;
 import com.targroup.coolapkconsole.fragments.AboutFragment;
@@ -66,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
 
     private String mUserName;
     private String mAvatarUrl;
-    private Bitmap mAvatar;
 
     private ListView mListView;
     private AppListAdapter mAdapter;
@@ -234,9 +231,6 @@ public class MainActivity extends AppCompatActivity {
                     mAvatarUrl = mAppListDocument.select("img[class=ex-drawer__header-avatar]").get(0)
                             .attr("src");
                     mUserName = mAppListDocument.select("span[class=ex-drawer__header-username]").text();
-                    mAvatar = ImageLoader.getInstance().loadImageSync(mAvatarUrl,
-                            new DisplayImageOptions.Builder()
-                                    .cacheOnDisk(true).build());
                     String max = mAppListDocument.select("td[class=mdl-data-table__cell--non-numeric]")
                             .select("[colspan=10]").text();
                     String[] s = max.split("，");
@@ -311,7 +305,9 @@ public class MainActivity extends AppCompatActivity {
                             }).show();
                 } else if (o instanceof List) {
                     mTextViewUserName.setText(mUserName);
-                    mImageViewUserAvatar.setImageBitmap(mAvatar);
+                    Glide.with(MainActivity.this)
+                            .load(mAvatarUrl)
+                            .into(mImageViewUserAvatar);
                     mAppsList.clear();
                     mAppsList.addAll((List<AppItem>)o);
                     query();
@@ -337,8 +333,9 @@ public class MainActivity extends AppCompatActivity {
             TextView title = (TextView)convertView.findViewById(R.id.item_title);
             TextView subtitle = (TextView)convertView.findViewById(R.id.item_subtitle);
             TextView context = (TextView)convertView.findViewById(R.id.item_context);
-            ImageLoader.getInstance().displayImage(item.getIcon(), icon,
-                    new DisplayImageOptions.Builder().cacheOnDisk(true).build());
+            Glide.with(MainActivity.this)
+                    .load(item.getIcon())
+                    .into(icon);
             title.setText(item.getName());
             subtitle.setText(item.getStatus());
             context.setText(getString(R.string.apk_item_context, item.getDownloads()));

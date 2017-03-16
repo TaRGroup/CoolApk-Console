@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_launch"
+        android:title="@string/action_launch"
+        android:icon="@drawable/ic_open_in_new_black_24dp" />
+    <item
+        android:id="@+id/action_show_in_coolapk"
+        android:title="@string/action_show_in_coolapk" />
+</menu>

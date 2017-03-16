@@ -1,8 +1,14 @@
 package com.targroup.coolapkconsole.activities;
 
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.net.Uri;
+import android.support.v4.widget.NestedScrollView;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.content.Intent;
@@ -18,12 +24,11 @@ import android.support.v7.widget.Toolbar;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.CollapsingToolbarLayout;
 
-import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
-
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.targroup.coolapkconsole.R;
 import com.targroup.coolapkconsole.model.AppDetail;
 import com.targroup.coolapkconsole.model.AppItem;
@@ -31,14 +36,15 @@ import com.targroup.coolapkconsole.model.DownloadStatItem;
 import com.targroup.coolapkconsole.utils.JsoupUtil;
 import com.targroup.coolapkconsole.utils.Util;
 
-import org.eazegraph.lib.charts.ValueLineChart;
-import org.eazegraph.lib.models.ValueLinePoint;
-import org.eazegraph.lib.models.ValueLineSeries;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
+import im.dacer.androidcharts.LineView;
 
 public class DetailActivity extends AppCompatActivity {
     public static final String EXTRA_APP_ITEM = DetailActivity.class.getSimpleName() + "/EXTRA_APP_ITEM";
@@ -56,7 +62,10 @@ public class DetailActivity extends AppCompatActivity {
     private TextView mLastUpdate;
     private TextView mDownloads;
     private TextView mUpdater;
-    private ValueLineChart mDownloadsChart;
+    private LineView mDownloadsChart;
+
+    private Toolbar mToolbar;
+    private CollapsingToolbarLayout mToolBarLayout;
 
     private int mColor;
 
@@ -73,7 +82,7 @@ public class DetailActivity extends AppCompatActivity {
             finish();
             return;
         }
-        mAppItem = (AppItem)intent.getParcelableExtra(EXTRA_APP_ITEM);
+        mAppItem = intent.getParcelableExtra(EXTRA_APP_ITEM);
         if (mAppItem == null) {
             finish();
             return;
@@ -85,7 +94,9 @@ public class DetailActivity extends AppCompatActivity {
     public void bindViews(){
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         CollapsingToolbarLayout toolbarLayout = (CollapsingToolbarLayout)findViewById(R.id.toolbar_layout);
-        FloatingActionMenu fab = (FloatingActionMenu)findViewById(R.id.detail_fab);
+
+        mToolbar = toolbar;
+        mToolBarLayout = toolbarLayout;
 
         mIcon = (ImageView)     findViewById(R.id.detail_icon);
         mStatus = (TextView)    findViewById(R.id.detail_status);
@@ -99,43 +110,11 @@ public class DetailActivity extends AppCompatActivity {
         mDownloads = (TextView) findViewById(R.id.detail_downloads);
         mUpdater = (TextView)   findViewById(R.id.detail_updater);
 
-        mDownloadsChart = (ValueLineChart) findViewById(R.id.chart_downloads);
+        mDownloadsChart = (LineView) findViewById(R.id.chart_downloads);
+        mDownloadsChart.setShowPopup(LineView.SHOW_POPUPS_MAXMIN_ONLY); //optional
 
         res = getResources();
 
-        FloatingActionButton fabLaunch = (FloatingActionButton)findViewById(R.id.menu_item_launch);
-        fabLaunch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    startActivity(getPackageManager().getLaunchIntentForPackage(mAppItem.getPackageName()));
-                } catch (ActivityNotFoundException ignore) {}
-            }
-        });
-        FloatingActionButton fabShowInCoolApk = (FloatingActionButton)findViewById(R.id.menu_item_show_in_coolapk);
-        fabShowInCoolApk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.coolapk.com/apk/" + mAppItem.getPackageName())));
-                } catch (ActivityNotFoundException ignore) {}
-            }
-        });
-
-        icon = ImageLoader.getInstance().loadImageSync(mAppItem.getIcon(),new DisplayImageOptions.Builder().cacheOnDisk(true).build());
-        if (icon != null) {
-            Palette.Swatch swatch = Palette.from(icon).generate().getVibrantSwatch();
-            if (swatch != null) {
-                mColor = swatch.getRgb();
-                toolbarLayout.setBackgroundColor(mColor);
-                toolbarLayout.setContentScrimColor(mColor);
-                toolbarLayout.setStatusBarScrimColor(mColor);
-                toolbar.setBackgroundColor(mColor);
-                fab.setMenuButtonColorNormal(mColor);
-                fab.setMenuButtonColorPressed(mColor);
-            }
-            mIcon.setImageBitmap(icon);
-        }
         mStatus.setText(mAppItem.getStatus());
         mPackage.setText(mAppItem.getPackageName());
         mID.setText(String.format(res.getString(R.string.detail_id),mAppItem.getId()));
@@ -156,10 +135,29 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu (Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_detail, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                return true;
+            case R.id.action_launch :
+                try {
+                    Intent launchIntent = getPackageManager().getLaunchIntentForPackage(mAppItem.getPackageName());
+                    if (launchIntent == null)
+                        return true;
+                    startActivity(launchIntent);
+                } catch (ActivityNotFoundException ignore) {}
+                return true;
+            case R.id.action_show_in_coolapk :
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.coolapk.com/apk/" + mAppItem.getPackageName())));
+                } catch (ActivityNotFoundException ignore) {}
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -201,12 +199,32 @@ public class DetailActivity extends AppCompatActivity {
                     item.setmSize(td.get(8).text());
                     mDetail.getmStats().add(item);
                 }
+                Collections.sort(mDetail.getmStats(), new Comparator<DownloadStatItem>() {
+                    @Override
+                    public int compare(DownloadStatItem downloadStatItem
+                            , DownloadStatItem t1) {
+                        int date1 = Integer.parseInt(downloadStatItem.getmDate());
+                        int date2 = Integer.parseInt(t1.getmDate());
+                        if (date1 > date2)
+                            return 1;
+                        if (date1 < date2)
+                            return -1;
+                        return 0;
+                    }
+                });
                 mDetail.setType(type);
                 mDetail.setCatId(catid);
                 mDetail.setKeyWords(keywords.split(","));
                 mDetail.setDetail(detail);
                 mDetail.setImageUrls(imageUrls);
                 mDetail.setLanguage(language);
+
+                icon = Glide.with(DetailActivity.this)
+                        .load(mAppItem.getIcon())
+                        .asBitmap()
+                        .into(125, 125).get();
+                mColor = Palette.from(icon)
+                        .generate().getVibrantColor(getResources().getColor(R.color.colorPrimary));
                 return null;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -230,16 +248,33 @@ public class DetailActivity extends AppCompatActivity {
             mDownloads.setText(String.format(res.getString(R.string.detail_downloads),mAppItem.getDownloads()));
             mUpdater.setText(String.format(res.getString(R.string.detail_updater),mAppItem.getUpdater()));
 
-            ValueLineSeries series = new ValueLineSeries();
+            ArrayList<ArrayList<Integer>> series = new ArrayList<>();
+            ArrayList<Integer> downloadsList = new ArrayList<>();
+            ArrayList<Integer> installList = new ArrayList<>();
+            ArrayList<String> bottom = new ArrayList<>();
+            int count = 0;
             // 0xFF56B7F1
-            series.setColor(mColor);
-
-            for (DownloadStatItem item : mDetail.getmStats()) {
-                series.addPoint(new ValueLinePoint(item.getmDate(), Float.parseFloat(item.getmDownloads())));
+            ArrayList<DownloadStatItem> downloadStatItems = mDetail.getmStats();
+            Collections.reverse(downloadStatItems);
+            for (DownloadStatItem item : downloadStatItems) {
+                downloadsList.add(Integer.parseInt(item.getmDownloads()));
+                installList.add(Integer.parseInt(item.getmInstalls()));
+                bottom.add(item.getmDate());
+                count++;
+                if (count >= 6) break; // Do not show too many data in preview chart.
             }
+            series.add(downloadsList);
+            series.add(installList);
+            mDownloadsChart.setBottomTextList(bottom);
+            mDownloadsChart.setDataList(series);
+            mDownloadsChart.setColorArray(new int[]{mColor,
+            Color.parseColor("#FFC93437")});
 
-            mDownloadsChart.addSeries(series);
-            mDownloadsChart.startAnimation();
+            mIcon.setImageBitmap(icon);
+            mToolBarLayout.setBackgroundColor(mColor);
+            mToolBarLayout.setContentScrimColor(mColor);
+            mToolBarLayout.setStatusBarScrimColor(mColor);
+            mToolbar.setBackgroundColor(mColor);
         }
     }
 }

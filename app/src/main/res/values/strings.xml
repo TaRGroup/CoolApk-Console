@@ -51,4 +51,5 @@
     <string name="detail_last">Last update: %1$s</string>
     <string name="detail_downloads">Downloads: %1$s</string>
     <string name="detail_updater">Updater: %1$s</string>
+    <string name="title_chart">Downloads and Installs</string>
 </resources>
