@@ -31,7 +31,8 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.DetailActivity"
-            android:label="@string/title_activity_detail" />
+            android:label="@string/title_activity_detail"
+            android:theme="@style/AppTheme.Transparent.Detail"/>
     </application>
 
 </manifest>
