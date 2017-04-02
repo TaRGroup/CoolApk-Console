@@ -44,28 +44,45 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import im.dacer.androidcharts.LineView;
 
 public class DetailActivity extends AppCompatActivity {
     public static final String EXTRA_APP_ITEM = DetailActivity.class.getSimpleName() + "/EXTRA_APP_ITEM";
     private AppItem mAppItem;
 
-    private ImageView mIcon;
-    private TextView mStatus;
-    private TextView mPackage;
-    private TextView mID;
-    private TextView mCreator;
+    @BindView(R.id.detail_icon)
+    ImageView mIcon;
+    @BindView(R.id.detail_status)
+    TextView mStatus;
+    @BindView(R.id.detail_packageName)
+    TextView mPackage;
+    @BindView(R.id.detail_id)
+    TextView mID;
+    @BindView(R.id.detail_creator)
+    TextView mCreator;
     private Bitmap icon = null;
     private View mContentView;
-    private TextView mVersion;
-    private TextView mSize;
-    private TextView mLastUpdate;
-    private TextView mDownloads;
-    private TextView mUpdater;
-    private LineView mDownloadsChart;
+    @BindView(R.id.detail_version)
+    TextView mVersion;
+    @BindView(R.id.detail_size)
+    TextView mSize;
+    @BindView(R.id.detail_last)
+    TextView mLastUpdate;
+    @BindView(R.id.detail_downloads)
+    TextView mDownloads;
+    @BindView(R.id.detail_updater)
+    TextView mUpdater;
+    @BindView(R.id.chart_downloads)
+    LineView mDownloadsChart;
+    @BindView(R.id.layout_progress)
+    View mProgress;
 
-    private Toolbar mToolbar;
-    private CollapsingToolbarLayout mToolBarLayout;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.toolbar_layout)
+    CollapsingToolbarLayout mToolBarLayout;
 
     private int mColor;
 
@@ -92,25 +109,7 @@ public class DetailActivity extends AppCompatActivity {
         refreshDetail();
     }
     public void bindViews(){
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
-        CollapsingToolbarLayout toolbarLayout = (CollapsingToolbarLayout)findViewById(R.id.toolbar_layout);
-
-        mToolbar = toolbar;
-        mToolBarLayout = toolbarLayout;
-
-        mIcon = (ImageView)     findViewById(R.id.detail_icon);
-        mStatus = (TextView)    findViewById(R.id.detail_status);
-        mPackage = (TextView)   findViewById(R.id.detail_packageName);
-        mID = (TextView)        findViewById(R.id.detail_id);
-        mCreator = (TextView)   findViewById(R.id.detail_creator);
-
-        mVersion = (TextView)   findViewById(R.id.detail_version);
-        mSize = (TextView)      findViewById(R.id.detail_size);
-        mLastUpdate = (TextView)findViewById(R.id.detail_last);
-        mDownloads = (TextView) findViewById(R.id.detail_downloads);
-        mUpdater = (TextView)   findViewById(R.id.detail_updater);
-
-        mDownloadsChart = (LineView) findViewById(R.id.chart_downloads);
+        ButterKnife.bind(this);
         mDownloadsChart.setShowPopup(LineView.SHOW_POPUPS_MAXMIN_ONLY); //optional
 
         res = getResources();
@@ -120,12 +119,12 @@ public class DetailActivity extends AppCompatActivity {
         mID.setText(String.format(res.getString(R.string.detail_id),mAppItem.getId()));
         mCreator.setText(String.format(res.getString(R.string.detail_creator),mAppItem.getCreator()));
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
         setTitle(mAppItem.getName());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (Util.getPublishState() != Util.PublishState.PUBLISH_STATE_STABLE) {
-            Snackbar.make(toolbar, "ID:" + mAppItem.getId(), Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(mToolbar, "ID:" + mAppItem.getId(), Snackbar.LENGTH_SHORT).show();
         }
     }
     private LoadDetailTask mLoadDetailTask;
@@ -234,12 +233,12 @@ public class DetailActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute () {
-            findViewById(R.id.layout_progress).setVisibility(View.VISIBLE);
+            mProgress.setVisibility(View.VISIBLE);
             mContentView.setEnabled(false);
         }
         @Override
         protected void onPostExecute (Object o) {
-            findViewById(R.id.layout_progress).setVisibility(View.GONE);
+            mProgress.setVisibility(View.GONE);
             mContentView.setEnabled(true);
 
             mVersion.setText(String.format(res.getString(R.string.detail_version),mAppItem.getVersion()));

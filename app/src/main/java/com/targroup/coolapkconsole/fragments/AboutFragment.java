@@ -16,36 +16,42 @@ import android.webkit.WebViewClient;
 
 import com.targroup.coolapkconsole.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by Administrator on 2017/2/1.
  */
 
 public class AboutFragment extends AppCompatDialogFragment {
+    @BindView(R.id.webview)
+    WebView mWebView;
+    @BindView(R.id.swipe)
+    SwipeRefreshLayout mSwipe;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         getDialog().setTitle(R.string.action_about);
         View view = inflater.inflate(R.layout.fragment_about, container, false);
-        final WebView webView = (WebView)view.findViewById(R.id.webview);
-        final SwipeRefreshLayout refreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swipe);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        webView.clearCache(true);
-        webView.loadUrl("https://raw.githubusercontent.com/TaRGroup/CoolApk-Console/master/README.md");
-        webView.setWebViewClient(new WebViewClient(){
+        ButterKnife.bind(this, view);
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        mWebView.clearCache(true);
+        mWebView.loadUrl("https://raw.githubusercontent.com/TaRGroup/CoolApk-Console/master/README.md");
+        mWebView.setWebViewClient(new WebViewClient(){
             @Override
             public void onPageFinished(WebView view, String url) {
-                refreshLayout.setRefreshing(false);
+                mSwipe.setRefreshing(false);
             }
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                refreshLayout.setRefreshing(true);
+                mSwipe.setRefreshing(true);
             }
         });
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        mSwipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                webView.reload();
+                mWebView.reload();
             }
         });
         view.findViewById(R.id.layout_open_in_browser).setOnClickListener(new View.OnClickListener() {

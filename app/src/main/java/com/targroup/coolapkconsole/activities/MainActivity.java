@@ -9,16 +9,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AbsListView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -26,11 +22,11 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.CardView;
 
 import com.bumptech.glide.Glide;
 
 import com.targroup.coolapkconsole.R;
+import com.targroup.coolapkconsole.adapters.AppListAdapter;
 import com.targroup.coolapkconsole.fragments.AboutFragment;
 import com.targroup.coolapkconsole.model.AppItem;
 import com.targroup.coolapkconsole.model.UserSave;
@@ -47,25 +43,33 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * @see <a href="http://blog.csdn.net/zcmain/article/details/14111141" />
  */
 
 public class MainActivity extends AppCompatActivity {
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
+    @BindView(R.id.activity_main)
     DrawerLayout mDrawerLayout;
+    @BindView(R.id.navigation_view)
     NavigationView mNavigationView;
     private Document mAppListDocument;
     private BezelImageView mImageViewUserAvatar;
     private TextView mTextViewUserName;
-    private SwipeRefreshLayout mSwipeRefresh;
+    @BindView(R.id.swipe)
+    SwipeRefreshLayout mSwipeRefresh;
 
     private LoadInfoTask mLoadInfoTask;
 
     private String mUserName;
     private String mAvatarUrl;
 
-    private ListView mListView;
+    @BindView(R.id.list)
+    ListView mListView;
     private AppListAdapter mAdapter;
     private List<AppItem> mAppsList = new ArrayList<>();
     private List<AppItem> mQueryList = new ArrayList<>();
@@ -92,13 +96,11 @@ public class MainActivity extends AppCompatActivity {
         super.onBackPressed();
     }
     public void bindViews(){
-        mToolbar = (Toolbar)findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
         mToolbar.setTitle(getTitle());
         setSupportActionBar(mToolbar);
-        mDrawerLayout = (DrawerLayout)findViewById(R.id.activity_main);
         mDrawerLayout.setFitsSystemWindows(true);
         mDrawerLayout.setClipToPadding(false);
-        mNavigationView = (NavigationView)findViewById(R.id.navigation_view);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.app_name, R.string.app_name);
         toggle.syncState();
@@ -113,10 +115,8 @@ public class MainActivity extends AppCompatActivity {
         mImageViewUserAvatar = (BezelImageView)header.findViewById(R.id.material_drawer_account_header_current);
         mTextViewUserName = (TextView)header.findViewById(R.id.material_drawer_account_header_name);
 
-        mListView = (ListView)findViewById(R.id.list);
-        mAdapter = new AppListAdapter();
+        mAdapter = new AppListAdapter(this, mQueryList);
         mListView.setAdapter(mAdapter);
-        mSwipeRefresh = (SwipeRefreshLayout)findViewById(R.id.swipe);
         mSwipeRefresh.setColorSchemeColors(Util.buildMaterialColors());
         mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -316,39 +316,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-    }
-    private class AppListAdapter extends ArrayAdapter<AppItem> {
-        AppListAdapter () {
-            super(MainActivity.this, 0, mQueryList);
-        }
-        @Override
-        public @NonNull View getView(int position, @Nullable View convertView,
-                                     @NonNull ViewGroup parent) {
-            if (convertView == null) {
-                convertView = getLayoutInflater().inflate(R.layout.item_app, null);
-            }
-            final AppItem item = mQueryList.get(position);
-            CardView card = (CardView)convertView.findViewById(R.id.item_card);
-            ImageView icon = (ImageView)convertView.findViewById(R.id.item_icon);
-            TextView title = (TextView)convertView.findViewById(R.id.item_title);
-            TextView subtitle = (TextView)convertView.findViewById(R.id.item_subtitle);
-            TextView context = (TextView)convertView.findViewById(R.id.item_context);
-            Glide.with(MainActivity.this)
-                    .load(item.getIcon())
-                    .into(icon);
-            title.setText(item.getName());
-            subtitle.setText(item.getStatus());
-            context.setText(getString(R.string.apk_item_context, item.getDownloads()));
-            // Card's clicking listener
-            card.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    startActivity(new Intent(MainActivity.this, DetailActivity.class)
-                    .putExtra(DetailActivity.EXTRA_APP_ITEM, item));
-                }
-            });
-            return convertView;
-        }
     }
 
     private void query () {

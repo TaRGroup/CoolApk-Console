@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.preference.PreferenceManager;
 
 import android.support.annotation.Nullable;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.targroup.coolapkconsole.R;
 import com.targroup.coolapkconsole.model.UserSave;
@@ -23,6 +25,10 @@ import com.targroup.coolapkconsole.utils.JsoupUtil;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2017/1/30.
@@ -32,13 +38,21 @@ import org.jsoup.select.Elements;
 
 public class SplashActivity extends Activity {
     private CheckLoginTask mTaskCheckLogin;
+    @BindView(R.id.splash_background)
+    View background;
+    @BindView(R.id.splash_content)
+    RelativeLayout mSplashContent;
+    @BindView(R.id.splash_button_login)
+    Button mLoginButton;
+    @BindView(R.id.splash_progress)
+    ProgressBar mProgressBar;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        ButterKnife.bind(this);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-        final View background = findViewById(R.id.splash_background);
         ViewTreeObserver observer = background .getViewTreeObserver();
         observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
@@ -81,8 +95,8 @@ public class SplashActivity extends Activity {
     }
 
     private void execute(){
-        findViewById(R.id.splash_context).setVisibility(View.VISIBLE);
-        findViewById(R.id.splash_context).setAnimation(AnimationUtils.loadAnimation(SplashActivity.this,R.anim.anim_splash_button));
+        mSplashContent.setVisibility(View.VISIBLE);
+        mSplashContent.setAnimation(AnimationUtils.loadAnimation(SplashActivity.this,R.anim.anim_splash_button));
         mTaskCheckLogin = new CheckLoginTask();
         mTaskCheckLogin.execute();
     }
@@ -110,24 +124,16 @@ public class SplashActivity extends Activity {
 
         @Override
         protected void onPreExecute () {
-            findViewById(R.id.splash_progress).setVisibility(View.VISIBLE);
+           mProgressBar.setVisibility(View.VISIBLE);
         }
         @Override
         protected void onPostExecute (Object o) {
-            findViewById(R.id.splash_progress).setVisibility(View.GONE);
+            mProgressBar.setVisibility(View.GONE);
             if (o != null) {
                 if (o instanceof Boolean) {
                     if (!(Boolean)o) {
-                        Button buttonLogin = (Button)findViewById(R.id.splash_button_login);
-                        buttonLogin.setVisibility(View.VISIBLE);
-                        buttonLogin.setAnimation(AnimationUtils.loadAnimation(getApplicationContext(),R.anim.anim_splash_button));
-                        buttonLogin.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                startActivity(new Intent(SplashActivity.this, AuthActivity.class));
-                                finish();
-                            }
-                        });
+                        mLoginButton.setVisibility(View.VISIBLE);
+                        mLoginButton.setAnimation(AnimationUtils.loadAnimation(getApplicationContext(),R.anim.anim_splash_button));
                     } else {
                         new Handler().postDelayed(new Runnable() {
                             @Override
@@ -150,5 +156,10 @@ public class SplashActivity extends Activity {
                 }
             }
         }
+    }
+    @OnClick(R.id.splash_button_login)
+    public void login () {
+        startActivity(new Intent(SplashActivity.this, AuthActivity.class));
+        finish();
     }
 }

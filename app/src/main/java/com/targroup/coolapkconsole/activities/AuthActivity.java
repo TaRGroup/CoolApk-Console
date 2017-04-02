@@ -14,25 +14,30 @@ import android.support.v7.widget.Toolbar;
 import com.targroup.coolapkconsole.R;
 import com.targroup.coolapkconsole.model.UserSave;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by rachel on 17-1-30.
  * Used to login.
  */
 
 public class AuthActivity extends AppCompatActivity {
+    @BindView(R.id.auth_toolbar)
     Toolbar mToolbar;
+    @BindView(R.id.auth_webview)
+    WebView mWebView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
-
-        final WebView webView = (WebView)findViewById(R.id.auth_webview);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-        webView.clearCache(true);
-        webView.loadUrl("https://account.coolapk.com/auth/login?forward=http%3A%2F%2Fdeveloper.coolapk.com");
-        webView.setWebViewClient(new WebViewClient(){
+        ButterKnife.bind(this);
+        mWebView.getSettings().setJavaScriptEnabled(true);
+        mWebView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        mWebView.clearCache(true);
+        mWebView.loadUrl("https://account.coolapk.com/auth/login?forward=http%3A%2F%2Fdeveloper.coolapk.com");
+        mWebView.setWebViewClient(new WebViewClient(){
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
@@ -41,14 +46,13 @@ public class AuthActivity extends AppCompatActivity {
                     UserSave userSave = new UserSave(cookies);
                     if (userSave.isLogin()) {
                         userSave.updateToSave();
-                        webView.stopLoading();
+                        mWebView.stopLoading();
                         startActivity(new Intent(AuthActivity.this, MainActivity.class));
                         finish();
                     }
                 }
             }
         });
-        mToolbar = (Toolbar)findViewById(R.id.auth_toolbar);
         mToolbar.setTitle(R.string.auth);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
