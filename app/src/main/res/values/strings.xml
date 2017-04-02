@@ -23,26 +23,11 @@
     <string name="action_save">Save</string>
     <string name="action_publish">Publish</string>
     <string name="action_settings">Settings</string>
-    <string name="settings_push">Push Mode</string>
     <string name="settings_push_summary">Receive app update and rate</string>
     <string name="settings_ui">User Interface</string>
     <string name="settings_ui_splashanim">Animation on boot</string>
     <string name="settings_ui_splashanim_on">Enable scale animation</string>
     <string name="settings_ui_splashanim_off">Disable scale animation</string>
-
-    <array name="settings_push_entries">
-        <item>Disable</item>
-        <item>GCM</item>
-        <item>Yunba</item>
-    </array>
-    <array name="settings_push_entryvalues" translatable="false">
-        <item>disable</item>
-        <item>gcm</item>
-        <item>yunba</item>
-    </array>
-    <string name="toast_need_restart">Restart application to apply changes</string>
-    <string name="action_restart">Restart</string>
-    <string name="toast_google_play_missing">Your device looks like missing Google Play service, push may not succeed.</string>
 
     <string name="detail_id">ID: %1$d</string>
     <string name="detail_creator">Creator: %1$s</string>

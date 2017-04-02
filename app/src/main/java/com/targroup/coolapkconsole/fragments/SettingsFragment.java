@@ -20,24 +20,5 @@ public class SettingsFragment extends PreferenceFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.settings);
-        ListPreference pushModePreference = (ListPreference)findPreference("PUSH_CHOICE");
-        pushModePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                Snackbar.make(getView(), R.string.toast_need_restart, Snackbar.LENGTH_SHORT)
-                        .setAction(R.string.action_restart, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Util.restartApp(getActivity(), SplashActivity.class);
-                            }
-                        }).show();
-                if ("gcm".equals(Util.PushUtil.getPushMode())) {
-                    if (!Util.PushUtil.checkPlayServices(getActivity())) {
-                        Snackbar.make(getView(), R.string.toast_google_play_missing, Snackbar.LENGTH_SHORT).show();
-                    }
-                }
-                return true;
-            }
-        });
     }
 }

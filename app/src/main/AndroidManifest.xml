@@ -4,9 +4,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <application
         android:name=".App"
@@ -15,50 +12,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Transparent">
-        <!-- Yunba Start -->
-        <meta-data android:name="YUNBA_APPKEY" android:value="${YUNBA_KEY}" />
-        <service android:name="io.yunba.android.core.YunBaService" />
-        <receiver android:name="io.yunba.android.core.YunBaReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.USER_PRESENT" />
-            </intent-filter>
-        </receiver>
-        <receiver android:name=".receivers.CloudMessageReceiver">
-            <intent-filter>
-                <action android:name="io.yunba.android.MESSAGE_RECEIVED_ACTION" />
-                <category android:name="com.targroup.coolapkconsole" />
-            </intent-filter>
-        </receiver>
-        <!-- Yunba End -->
-        <!-- GCM Start -->
-        <service
-            android:name=".services.RegistrationIntentService"
-            android:exported="false">
-        </service>
-        <receiver
-            android:name="com.google.android.gms.gcm.GcmReceiver"
-            android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND" >
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="gcm.play.android.samples.com.gcmquickstart" />
-            </intent-filter>
-        </receiver>
-        <service
-            android:name=".services.MyGcmListenerService"
-            android:exported="false" >
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-            </intent-filter>
-        </service>
-        <service
-            android:name=".services.MyInstanceIDListenerService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID"/>
-            </intent-filter>
-        </service>
-        <!-- GCM End -->
         <activity android:name=".activities.SettingsActivity"
             android:theme="@style/AppTheme.HasActionBar"
             android:label="@string/action_settings" />

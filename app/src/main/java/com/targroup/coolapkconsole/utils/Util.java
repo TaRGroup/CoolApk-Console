@@ -7,21 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
-import android.util.Log;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.targroup.coolapkconsole.App;
 import com.targroup.coolapkconsole.BuildConfig;
-import com.targroup.coolapkconsole.model.UserSave;
-import com.targroup.coolapkconsole.services.RegistrationIntentService;
-
-import org.eclipse.paho.client.mqttv3.IMqttActionListener;
-import org.eclipse.paho.client.mqttv3.IMqttToken;
-
-import io.yunba.android.manager.YunBaManager;
 
 /**
  * Created by Administrator on 2017/1/31.
@@ -85,60 +74,5 @@ public class Util {
         AlarmManager mgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
         System.exit(0);
-    }
-    public static class PushUtil {
-        /**
-         * Check the device to make sure it has the Google Play Services APK. If
-         * it doesn't, display a dialog that allows users to download the APK from
-         * the Google Play Store or enable it in the device's system settings.
-         */
-        public static boolean checkPlayServices(final Activity context) {
-            final String TAG = "Push";
-            final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-            GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-            int resultCode = apiAvailability.isGooglePlayServicesAvailable(context);
-            if (resultCode != ConnectionResult.SUCCESS) {
-                if (apiAvailability.isUserResolvableError(resultCode)) {
-                    apiAvailability.getErrorDialog(context, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
-                            .show();
-                } else {
-                    Log.i(TAG, "This device is not supported.");
-                }
-                return false;
-            }
-            return true;
-        }
-        public static void startPush (Context c) {
-            UserSave userSave = new UserSave();
-            if (userSave.isLogin()) {
-                switch (getPushMode()) {
-                    case "yunba" :
-                        YunBaManager.start(c.getApplicationContext());
-                        YunBaManager.subscribe(c.getApplicationContext(), userSave.getUID(), new IMqttActionListener() {
-                            private static final String TAG = "Push-YunbaInit";
-                            @Override
-                            public void onSuccess(IMqttToken arg0) {
-                                Log.d(TAG, "Subscribe topic succeed");
-                            }
-
-                            @Override
-                            public void onFailure(IMqttToken arg0, Throwable arg1) {
-                                Log.d(TAG, "Subscribe topic failed");
-                            }
-                        });
-                        break;
-                    case "gcm" :
-                        Intent intent = new Intent(c, RegistrationIntentService.class);
-                        c.startService(intent);
-                        break;
-                }
-            }
-        }
-        public static String getPushMode () {
-            return  App.getPrefs().getString("PUSH_CHOICE", "gcm");
-        }
-        public static boolean isPushEnable () {
-            return !"disable".equals(getPushMode());
-        }
     }
 }

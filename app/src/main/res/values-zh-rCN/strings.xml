@@ -27,11 +27,7 @@
     <string name="detail_size">安装包大小：%1$s</string>
     <string name="detail_updater">更新者：%1$s</string>
     <string name="detail_version">版本号：%1$s</string>
-    <string name="settings_push">推送模式</string>
-    <string name="settings_push_summary">用于接收应用更新、评论消息</string>
     <string name="title_activity_detail">详细信息</string>
-    <string name="toast_google_play_missing">你的设备看起来没有 Google Play Service ，推送有可能不成功。</string>
-    <string name="toast_need_restart">重启以应用更改</string>
     <string name="detail_downloads">下载量：%1$s</string>
     <string name="detail_last">上次更新：%1$s</string>
     <string name="settings_ui">用户界面</string>

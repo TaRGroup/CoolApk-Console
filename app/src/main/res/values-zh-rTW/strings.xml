@@ -20,22 +20,7 @@
     <string name="action_show_in_coolapk">在酷安中查看</string>
     <string name="action_save">保存</string>
     <string name="action_publish">發佈</string>
-			<string name="settings_push">推送模式</string>
-    <string name="settings_push_summary">接收應用程序更新和點評</string>
-    <array name="settings_push_entries">
-        <item>禁用</item>
-        <item>GCM</item>
-        <item>雲巴</item>
-    </array>
-    <array name="settings_push_entryvalues" translatable="false">
-        <item>disable</item>
-        <item>gcm</item>
-        <item>yunba</item>
-    </array>
-    <string name="toast_need_restart">重啟應用程序以使更改生效</string>
-    <string name="action_restart">立刻重啟</string>
-    <string name="toast_google_play_missing">看起來你的設備沒有Google Play服務，推送可能會失敗</string>
-    
+
     <string name="detail_id">ID: %1$d</string>
     <string name="detail_creator">發佈者: %1$s</string>
     <string name="detail_version">版本號: %1$s</string>

@@ -9,7 +9,6 @@ import android.preference.PreferenceManager;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-import com.targroup.coolapkconsole.utils.Util;
 
 /**
  * Created by Administrator on 2017/1/30.
@@ -27,9 +26,9 @@ public class App extends Application {
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-                mTracker = getDefaultTracker();
-                mTracker.setScreenName("Image~" + activity.getLocalClassName());
-                mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+                Tracker tracker = getDefaultTracker();
+                tracker.setScreenName("Image~" + activity.getLocalClassName());
+                tracker.send(new HitBuilders.ScreenViewBuilder().build());
             }
 
             @Override
@@ -62,7 +61,6 @@ public class App extends Application {
 
             }
         });
-        Util.PushUtil.startPush(this);
     }
     private Tracker mTracker;
 

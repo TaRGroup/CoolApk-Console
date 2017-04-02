@@ -1,8 +1,6 @@
 # CoolApk-Console
 Mobile-friendly Coolapk develop console
 
-**图标为PlayConsole魔改**
-
 **为了统计准确性，项目中没有添加 `google-services.json` 请手动添加以完成编译。**
 
 ### LICENSE
