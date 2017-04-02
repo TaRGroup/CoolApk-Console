@@ -17,6 +17,8 @@
     </style>
     <style name="AppTheme.Transparent" parent="@style/AppTheme">
     </style>
+    <style name="AppTheme.Transparent.Detail" parent="@style/AppTheme">
+    </style>
     <style name="SplashStyle" parent="@android:style/Theme.DeviceDefault.Wallpaper.NoTitleBar" />
 
     <!-- BezelImageView -->
