@@ -31,4 +31,7 @@
     <string name="settings_ui_splashanim">启动时播放动画</string>
     <string name="settings_ui_splashanim_on">启用缩放动画</string>
     <string name="settings_ui_splashanim_off">禁用缩放动画</string>
+    <string name="action_settings">設置</string>
+    <string name="detail_last">上次更新：%1$s</string>
+    <string name="title_chart">下載和安裝量</string>
 </resources>

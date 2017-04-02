@@ -23,7 +23,6 @@
     <string name="action_save">Save</string>
     <string name="action_publish">Publish</string>
     <string name="action_settings">Settings</string>
-    <string name="settings_push_summary">Receive app update and rate</string>
     <string name="settings_ui">User Interface</string>
     <string name="settings_ui_splashanim">Animation on boot</string>
     <string name="settings_ui_splashanim_on">Enable scale animation</string>
