@@ -1,7 +1,18 @@
 # CoolApk-Console
 Mobile-friendly Coolapk develop console
 
-**为了统计准确性，项目中没有添加 `google-services.json` 请手动添加以完成编译。**
+# 编译指南
+为了统计准确性，项目中没有添加 `google-services.json` 请手动添加以完成编译。
+
+# 其他贡献
+## 图标
+![](http://image.coolapk.com/feed/2017/0403/801526_1491207521_8391.jpg.m.jpg)
+**图标来自酷安基佬 [ArchieLiu](http://coolapk.com/u/801526)**
+交易现场：[（1）](http://coolapk.com/feed/3009106) [（2）](https://github.com/TaRGroup/CoolApk-Console/issues/9)
+
+# 帮助我们
+
+欢迎提交 `Issue` 以及 `PR`，以帮助这个项目做得更好。
 
 ### LICENSE
 **NEVER TRY TO SECONDARILY PACKAGE, WHICH GOES AGAINST THE GNU GENERAL PUBLIC LICENSE.**  
