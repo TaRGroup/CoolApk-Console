@@ -24,8 +24,10 @@
                 android:maxHeight="72dp"
                 android:maxWidth="72dp"
                 android:src="@mipmap/ic_launcher"
-                android:layout_width="100dp"
-                android:layout_height="100dp" />
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"/>
             <LinearLayout
                 android:layout_margin="16dp"
                 android:orientation="vertical"
@@ -39,14 +41,16 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:textSize="20sp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"/>
                 <TextView
                     android:id="@+id/item_subtitle"
                     android:text="Subtitle"
                     android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                     android:textSize="18sp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp" />
                 <TextView
                     android:id="@+id/item_context"
                     android:text="Context"

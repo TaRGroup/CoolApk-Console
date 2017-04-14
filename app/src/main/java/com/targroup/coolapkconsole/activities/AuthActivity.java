@@ -6,6 +6,7 @@ import android.webkit.WebView;
 import android.webkit.CookieManager;
 import android.webkit.WebViewClient;
 import android.content.Intent;
+import android.graphics.Bitmap;
 
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -39,7 +40,7 @@ public class AuthActivity extends AppCompatActivity {
         mWebView.loadUrl("https://account.coolapk.com/auth/login?forward=http%3A%2F%2Fdeveloper.coolapk.com");
         mWebView.setWebViewClient(new WebViewClient(){
             @Override
-            public void onPageFinished(WebView view, String url) {
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageFinished(view, url);
                 String cookies = CookieManager.getInstance().getCookie(url);
                 if (cookies != null) {
