@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">酷安控制台</string>
-    <string name="auth">登陸酷安帳戶</string>
-    <string name="err_get_list">此時無法獲取應用列表，請稍後。</string>
-    <string name="err_login">此時無法登陸，請稍後再試（或許您的帳戶沒有控制台訪問權限）</string>
+    <string name="auth">登入酷安帳戶</string>
+    <string name="err_get_list">此時無法取得應用列表，請稍後。</string>
+    <string name="err_login">此時無法登入，請稍後再試（或許您的帳戶沒有控制台存取權限）</string>
     <string name="apk_item_context">%1$s下載</string>
     <string name="action_waiting">待審核</string>
     <string name="action_shelved">已上架</string>
     <string name="action_new">新上架</string>
-    <string name="action_logout">註銷</string>
-    <string name="action_login">登陸</string>
+    <string name="action_logout">登出</string>
+    <string name="action_login">登入</string>
     <string name="action_about">關於</string>
     <string name="action_all">全部</string>
     <string name="action_deleted">已下架</string>
@@ -18,7 +18,7 @@
     <string name="title_activity_detail">詳情</string>
     <string name="action_launch">啟動</string>
     <string name="action_show_in_coolapk">在酷安中查看</string>
-    <string name="action_save">保存</string>
+    <string name="action_save">儲存</string>
     <string name="action_publish">發佈</string>
 
     <string name="detail_id">ID: %1$d</string>
@@ -27,8 +27,11 @@
     <string name="detail_size">安裝包大小: %1$s</string>
     <string name="detail_downloads">下載量: %1$s</string>
     <string name="detail_updater">更新者: %1$s</string>
-    <string name="settings_ui">用户界面</string>
-    <string name="settings_ui_splashanim">启动时播放动画</string>
-    <string name="settings_ui_splashanim_on">启用缩放动画</string>
-    <string name="settings_ui_splashanim_off">禁用缩放动画</string>
+    <string name="settings_ui">用戶界面</string>
+    <string name="settings_ui_splashanim">啟動時播放動畫</string>
+    <string name="settings_ui_splashanim_on">開啟缩放動畫</string>
+    <string name="settings_ui_splashanim_off">關閉縮放動畫</string>
+    <string name="action_settings">設定</string>
+    <string name="detail_last">上次更新：%1$s</string>
+    <string name="title_chart">下載和安裝量</string>
 </resources>

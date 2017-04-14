@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 
 import com.targroup.coolapkconsole.R;
 import com.targroup.coolapkconsole.model.UserSave;
+import com.targroup.coolapkconsole.utils.CoolapkApi;
 import com.targroup.coolapkconsole.utils.JsoupUtil;
 
 import org.jsoup.nodes.Document;
@@ -29,6 +30,7 @@ import org.jsoup.select.Elements;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Subscriber;
 
 /**
  * Created by Administrator on 2017/1/30.
@@ -37,7 +39,48 @@ import butterknife.OnClick;
  */
 
 public class SplashActivity extends Activity {
-    private CheckLoginTask mTaskCheckLogin;
+    private Subscriber<Boolean> mCheckLoginSubscriber = new Subscriber<Boolean>() {
+        @Override
+        public void onCompleted() {
+            mProgressBar.setVisibility(View.GONE);
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            mProgressBar.setVisibility(View.GONE);
+            e.printStackTrace();
+            new AlertDialog.Builder(SplashActivity.this, R.style.AppTheme)
+                    .setMessage(R.string.err_login)
+                    .setCancelable(false)
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    }).show();
+        }
+
+        @Override
+        public void onNext(Boolean aBoolean) {
+            if (!aBoolean) {
+                mLoginButton.setVisibility(View.VISIBLE);
+                mLoginButton.setAnimation(AnimationUtils.loadAnimation(getApplicationContext(),R.anim.anim_splash_button));
+            } else {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                        finish();
+                    }
+                },1000);
+            }
+        }
+
+        @Override
+        public void onStart () {
+            mProgressBar.setVisibility(View.VISIBLE);
+        }
+    };
     @BindView(R.id.splash_background)
     View background;
     @BindView(R.id.splash_content)
@@ -85,8 +128,8 @@ public class SplashActivity extends Activity {
     }
     @Override
     public void onDestroy () {
-        if (mTaskCheckLogin != null)
-            mTaskCheckLogin.cancel(true);
+        if (!mCheckLoginSubscriber.isUnsubscribed())
+            mCheckLoginSubscriber.unsubscribe();
         super.onDestroy();
     }
     @Override
@@ -97,66 +140,9 @@ public class SplashActivity extends Activity {
     private void execute(){
         mSplashContent.setVisibility(View.VISIBLE);
         mSplashContent.setAnimation(AnimationUtils.loadAnimation(SplashActivity.this,R.anim.anim_splash_button));
-        mTaskCheckLogin = new CheckLoginTask();
-        mTaskCheckLogin.execute();
+        CoolapkApi.checkLogin(this).subscribe(mCheckLoginSubscriber);
     }
 
-    private class CheckLoginTask extends AsyncTask<Void, Void, Object> {
-        @Override
-        protected Object doInBackground(Void... params) {
-            try {
-                Document loginDocument = JsoupUtil.getDocument("developer.coolapk.com", true);
-                Elements cardElements = JsoupUtil.select(loginDocument, "div[class=mdl-card__supporting-text]");
-                String alertText = cardElements.text();
-                if (cardElements.size() > 0 && "你还没有登录，请先登录！".equals(alertText)) {
-                    return Boolean.FALSE;
-                } else if ("你没有权限登录开发者中心，请先申请开发者认证！".equals(alertText)) {
-                    UserSave.logout(SplashActivity.this);
-                    return Boolean.FALSE;
-                } else {
-                    return Boolean.TRUE;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                return e;
-            }
-        }
-
-        @Override
-        protected void onPreExecute () {
-           mProgressBar.setVisibility(View.VISIBLE);
-        }
-        @Override
-        protected void onPostExecute (Object o) {
-            mProgressBar.setVisibility(View.GONE);
-            if (o != null) {
-                if (o instanceof Boolean) {
-                    if (!(Boolean)o) {
-                        mLoginButton.setVisibility(View.VISIBLE);
-                        mLoginButton.setAnimation(AnimationUtils.loadAnimation(getApplicationContext(),R.anim.anim_splash_button));
-                    } else {
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                                finish();
-                            }
-                        },1000);
-                    }
-                } else if (o instanceof Exception) {
-                    new AlertDialog.Builder(SplashActivity.this, R.style.AppTheme)
-                            .setMessage(R.string.err_login)
-                            .setCancelable(false)
-                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    finish();
-                                }
-                            }).show();
-                }
-            }
-        }
-    }
     @OnClick(R.id.splash_button_login)
     public void login () {
         startActivity(new Intent(SplashActivity.this, AuthActivity.class));

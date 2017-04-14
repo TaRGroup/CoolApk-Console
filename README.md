@@ -1,7 +1,22 @@
+<img src="https://ooo.0o0.ooo/2017/04/03/58e2291ca3a86.png" width="512" height="250" align=center/>
+
 # CoolApk-Console
 Mobile-friendly Coolapk develop console
 
-**为了统计准确性，项目中没有添加 `google-services.json` 请手动添加以完成编译。**
+[<img src="https://ooo.0o0.ooo/2017/04/03/58e2297440cd1.png" width = "323" height = "125" alt="从 Google Play 获取应用" align=center />](https://play.google.com/store/apps/details?id=com.targroup.coolapkconsole)
+
+# 编译指南
+为了统计准确性，项目中没有添加 `google-services.json` 请手动添加以完成编译。
+
+# 其他贡献
+## 图标来自酷安基佬 [ArchieLiu](http://coolapk.com/u/801526)
+<img src="http://image.coolapk.com/feed/2017/0403/801526_1491207521_8391.jpg.m.jpg" width = "480" height = "339" />
+
+交易现场：[（1）](http://coolapk.com/feed/3009106) [（2）](https://github.com/TaRGroup/CoolApk-Console/issues/9)
+
+# 帮助我们
+
+欢迎提交 `Issue` 以及 `PR`，以帮助这个项目做得更好。
 
 ### LICENSE
 **NEVER TRY TO SECONDARILY PACKAGE, WHICH GOES AGAINST THE GNU GENERAL PUBLIC LICENSE.**  
@@ -28,3 +43,4 @@ Copyright (C) 2017 TaRGroup
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ```
+注：`Google Play 和 Google Play 徽标均为 Google Inc. 的商标。`

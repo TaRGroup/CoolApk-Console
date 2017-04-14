@@ -18,7 +18,6 @@
     <string name="action_open_in_browser">在浏览器打开</string>
     <string name="action_launch">启动</string>
     <string name="action_publish">保存并发布</string>
-    <string name="action_restart">重启</string>
     <string name="action_save">保存</string>
     <string name="action_settings">设置</string>
     <string name="action_show_in_coolapk">在酷安中查看</string>
@@ -34,4 +33,5 @@
     <string name="settings_ui_splashanim">启动时播放动画</string>
     <string name="settings_ui_splashanim_on">启用缩放动画</string>
     <string name="settings_ui_splashanim_off">禁用缩放动画</string>
+    <string name="title_chart">下载和安装量</string>
 </resources>
