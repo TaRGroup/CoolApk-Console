@@ -21,10 +21,8 @@
     <string name="action_save">保存</string>
     <string name="action_settings">设置</string>
     <string name="action_show_in_coolapk">在酷安中查看</string>
-    <string name="detail_creator">发布者：%1$s</string>
     <string name="detail_id">ID：%1$d</string>
     <string name="detail_size">安装包大小：%1$s</string>
-    <string name="detail_updater">更新者：%1$s</string>
     <string name="detail_version">版本号：%1$s</string>
     <string name="title_activity_detail">详细信息</string>
     <string name="detail_downloads">下载量：%1$s</string>

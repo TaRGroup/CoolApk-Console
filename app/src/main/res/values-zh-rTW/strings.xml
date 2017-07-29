@@ -22,11 +22,9 @@
     <string name="action_publish">發佈</string>
 
     <string name="detail_id">ID: %1$d</string>
-    <string name="detail_creator">發佈者: %1$s</string>
     <string name="detail_version">版本號: %1$s</string>
     <string name="detail_size">安裝包大小: %1$s</string>
     <string name="detail_downloads">下載量: %1$s</string>
-    <string name="detail_updater">更新者: %1$s</string>
     <string name="settings_ui">用戶界面</string>
     <string name="settings_ui_splashanim">啟動時播放動畫</string>
     <string name="settings_ui_splashanim_on">開啟缩放動畫</string>

@@ -29,11 +29,9 @@
     <string name="settings_ui_splashanim_off">Disable scale animation</string>
 
     <string name="detail_id">ID: %1$d</string>
-    <string name="detail_creator">Creator: %1$s</string>
     <string name="detail_version">Version: %1$s</string>
     <string name="detail_size">Apk size: %1$s</string>
     <string name="detail_last">Last update: %1$s</string>
     <string name="detail_downloads">Downloads: %1$s</string>
-    <string name="detail_updater">Updater: %1$s</string>
     <string name="title_chart">Downloads and Installs</string>
 </resources>
