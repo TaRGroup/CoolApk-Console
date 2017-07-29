@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#4CAF50</color>
-    <color name="colorPrimaryDark">#348438</color>
+    <color name="colorPrimaryDark">#3E8E41</color>
     <color name="colorAccent">#4CAF50</color>
     <!-- <color name="material_drawer_primary">@color/materialize_primary</color> -->
     <color name="colorMaterialBlue">#4285f4</color>

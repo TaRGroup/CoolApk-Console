@@ -6,7 +6,8 @@
     android:gravity="center_vertical"
     android:minHeight="?android:listPreferredItemHeight"
     android:orientation="horizontal"
-    android:baselineAligned="false">
+    android:baselineAligned="false"
+    android:padding="16dp">
 
     <RelativeLayout
         android:layout_weight="1"

@@ -1,16 +1,13 @@
 package com.targroup.coolapkconsole.activities;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.os.Handler;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.widget.Button;
 import android.preference.PreferenceManager;
@@ -20,12 +17,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.targroup.coolapkconsole.R;
-import com.targroup.coolapkconsole.model.UserSave;
 import com.targroup.coolapkconsole.utils.CoolapkApi;
-import com.targroup.coolapkconsole.utils.JsoupUtil;
-
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
+import com.targroup.coolapkconsole.utils.ErrorUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,15 +42,7 @@ public class SplashActivity extends Activity {
         public void onError(Throwable e) {
             mProgressBar.setVisibility(View.GONE);
             e.printStackTrace();
-            new AlertDialog.Builder(SplashActivity.this, R.style.AppTheme)
-                    .setMessage(R.string.err_login)
-                    .setCancelable(false)
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                        }
-                    }).show();
+            ErrorUtils.showErrorDialog(e, SplashActivity.this);
         }
 
         @Override

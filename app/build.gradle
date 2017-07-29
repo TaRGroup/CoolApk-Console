@@ -7,8 +7,8 @@ android {
         applicationId "com.targroup.coolapkconsole"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 3
-        versionName "1.2"
+        versionCode 4
+        versionName "1.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         // Publish state. stable, beta, alpha
         buildConfigField 'String', 'PUBLISH_STATE', '\"stable\"'

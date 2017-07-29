@@ -45,8 +45,6 @@ public class DetailActivity extends AppCompatActivity {
     TextView mPackage;
     @BindView(R.id.detail_id)
     TextView mID;
-    @BindView(R.id.detail_creator)
-    TextView mCreator;
     private Bitmap icon = null;
     private View mContentView;
     @BindView(R.id.detail_version)
@@ -57,8 +55,6 @@ public class DetailActivity extends AppCompatActivity {
     TextView mLastUpdate;
     @BindView(R.id.detail_downloads)
     TextView mDownloads;
-    @BindView(R.id.detail_updater)
-    TextView mUpdater;
     @BindView(R.id.chart_downloads)
     LineView mDownloadsChart;
     @BindView(R.id.layout_progress)
@@ -110,7 +106,6 @@ public class DetailActivity extends AppCompatActivity {
         mStatus.setText(mAppItem.getStatus());
         mPackage.setText(mAppItem.getPackageName());
         mID.setText(String.format(res.getString(R.string.detail_id),mAppItem.getId()));
-        mCreator.setText(String.format(res.getString(R.string.detail_creator),mAppItem.getCreator()));
 
         setSupportActionBar(mToolbar);
         setTitle(mAppItem.getName());
@@ -130,7 +125,6 @@ public class DetailActivity extends AppCompatActivity {
             mSize.setText(String.format(res.getString(R.string.detail_size),mAppItem.getSize()));
             mLastUpdate.setText(String.format(res.getString(R.string.detail_last),mAppItem.getLastUpdate()));
             mDownloads.setText(String.format(res.getString(R.string.detail_downloads),mAppItem.getDownloads()));
-            mUpdater.setText(String.format(res.getString(R.string.detail_updater),mAppItem.getUpdater()));
 
             ArrayList<ArrayList<Integer>> series = new ArrayList<>();
             ArrayList<Integer> downloadsList = new ArrayList<>();

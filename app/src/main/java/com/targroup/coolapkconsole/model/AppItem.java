@@ -21,13 +21,11 @@ public class AppItem implements Parcelable{
     private String type;
     private String tag;
     private String downloads;
-    private String creator;
-    private String updater;
     private String lastUpdate;
     private String status;
 
     public AppItem(long id, String icon, String name, String packageName, String version, String size, String apiVersion,
-                   String type, String tag, String downloads, String creator, String updater, String lastUpdate, String status) {
+                   String type, String tag, String downloads, String lastUpdate, String status) {
         this.id = id;
         this.icon = icon;
         this.name = name;
@@ -38,8 +36,6 @@ public class AppItem implements Parcelable{
         this.type = type;
         this.tag = tag;
         this.downloads = downloads;
-        this.creator = creator;
-        this.updater = updater;
         this.lastUpdate = lastUpdate;
         this.status = status;
     }
@@ -55,8 +51,6 @@ public class AppItem implements Parcelable{
         type = in.readString();
         tag = in.readString();
         downloads = in.readString();
-        creator = in.readString();
-        updater = in.readString();
         lastUpdate = in.readString();
         status = in.readString();
     }
@@ -153,22 +147,6 @@ public class AppItem implements Parcelable{
         this.downloads = downloads;
     }
 
-    public String getCreator() {
-        return creator;
-    }
-
-    public void setCreator(String creator) {
-        this.creator = creator;
-    }
-
-    public String getUpdater() {
-        return updater;
-    }
-
-    public void setUpdater(String updater) {
-        this.updater = updater;
-    }
-
     public String getLastUpdate() {
         return lastUpdate;
     }
@@ -202,8 +180,6 @@ public class AppItem implements Parcelable{
         dest.writeString(type);
         dest.writeString(tag);
         dest.writeString(downloads);
-        dest.writeString(creator);
-        dest.writeString(updater);
         dest.writeString(lastUpdate);
         dest.writeString(status);
     }

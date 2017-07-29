@@ -62,13 +62,6 @@
                     android:textSize="14sp"
                     android:layout_marginBottom="2dp"/>
 
-                <TextView
-                    android:id="@+id/detail_creator"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="八百污兵"
-                    android:textSize="14sp"/>
-
             </LinearLayout>
 
         </RelativeLayout>
@@ -118,14 +111,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
-                    android:layout_margin="4dp" />
-
-                <TextView
-                    android:id="@+id/detail_updater"
-                    android:text="八百污兵"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"
                     android:layout_margin="4dp" />
 
             </LinearLayout>

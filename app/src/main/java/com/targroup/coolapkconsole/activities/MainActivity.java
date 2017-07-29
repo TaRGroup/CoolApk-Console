@@ -1,9 +1,6 @@
 package com.targroup.coolapkconsole.activities;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,6 +28,7 @@ import com.targroup.coolapkconsole.fragments.AboutFragment;
 import com.targroup.coolapkconsole.model.AppItem;
 import com.targroup.coolapkconsole.model.UserSave;
 import com.targroup.coolapkconsole.utils.ACache;
+import com.targroup.coolapkconsole.utils.ErrorUtils;
 import com.targroup.coolapkconsole.utils.JsoupUtil;
 import com.targroup.coolapkconsole.utils.Util;
 import com.targroup.coolapkconsole.view.BezelImageView;
@@ -250,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
                         Elements tabElements = element.select("td[class^=mdl-data-table__cell--non-numeric]");
                         long id = Long.valueOf(element.id().split("--")[1]);
                         String icon = element.select("img[style=width: 36px;]").get(0).attr("src");
-                        String name = element.select("a[href*=/do?c=apk&m=edit]").text().replace(" 版本 统计", "");
+                        String name = element.select("a[href*=/do?c=apk&m=edit]").text().replace("版本", "").replace("统计", "").trim();
                         String packageName = JsoupUtil.getDocument("developer.coolapk.com/do?c=apk&m=edit&id="+id,true).select("input[name=apkname]").val();
                         String size = null;
                         String apiVersion = null;
@@ -263,15 +261,13 @@ public class MainActivity extends AppCompatActivity {
                         }
                         String version = null;
                         if (name != null && size != null)
-                            version = tabElements.get(1).text().split(name)[1].split(size)[0].trim();
+                            version = tabElements.get(1).text().split(name)[0].split(size)[0].trim();
                         String type = element.select("a[href^=/do?c=apk&m=list&apkType=]").text();
                         String tag = element.select("a[href^=/do?c=apk&m=list&catid=]").text();
                         String downloads = tabElements.get(3).text();
-                        String creator = element.select("a[href^=/do?c=apk&m=list&creatorName=]").text();
-                        String updater = element.select("a[href^=/do?c=apk&m=list&updaterName=]").text();
-                        String lastUpdate = tabElements.get(5).text();
-                        String status = tabElements.get(6).text();
-                        item = new AppItem(id,icon,name,packageName,version,size,apiVersion,type,tag,downloads,creator,updater,lastUpdate,status);
+                        String lastUpdate = tabElements.get(4).text();
+                        String status = tabElements.get(5).text();
+                        item = new AppItem(id,icon,name,packageName,version,size,apiVersion,type,tag,downloads,lastUpdate,status);
                         list.add(item);
                     }
                     return list;
@@ -294,15 +290,7 @@ public class MainActivity extends AppCompatActivity {
             mSwipeRefresh.setRefreshing(false);
             if (o != null) {
                 if (o instanceof Exception) {
-                    new AlertDialog.Builder(MainActivity.this, R.style.AppTheme)
-                            .setMessage(R.string.err_login)
-                            .setCancelable(false)
-                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    //finish();
-                                }
-                            }).show();
+                    ErrorUtils.showErrorDialog(((Exception)o), MainActivity.this);
                 } else if (o instanceof List) {
                     mTextViewUserName.setText(mUserName);
                     Glide.with(MainActivity.this)
