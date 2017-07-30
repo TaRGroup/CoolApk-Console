@@ -259,9 +259,7 @@ public class MainActivity extends AppCompatActivity {
                                 apiVersion = detailsElement.text();
                             }
                         }
-                        String version = null;
-                        if (name != null && size != null)
-                            version = tabElements.get(1).text().split(name)[0].split(size)[0].trim();
+                        String version = tabElements.get(1).html().split("<br>")[1].split("v")[1].split("&nbsp;")[0].trim();
                         String type = element.select("a[href^=/do?c=apk&m=list&apkType=]").text();
                         String tag = element.select("a[href^=/do?c=apk&m=list&catid=]").text();
                         String downloads = tabElements.get(3).text();
