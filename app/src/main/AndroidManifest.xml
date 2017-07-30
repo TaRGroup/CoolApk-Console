@@ -16,7 +16,7 @@
             android:theme="@style/AppTheme.HasActionBar"
             android:label="@string/action_settings" />
         <activity android:name=".activities.MainActivity"
-            android:launchMode="singleInstance"/>
+            android:launchMode="singleTop"/>
         <activity
             android:name=".activities.SplashActivity"
             android:theme="@style/SplashStyle">
