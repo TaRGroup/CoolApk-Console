@@ -41,15 +41,17 @@ public class AuthActivity extends AppCompatActivity {
         mWebView.setWebViewClient(new WebViewClient(){
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                super.onPageFinished(view, url);
-                String cookies = CookieManager.getInstance().getCookie(url);
-                if (cookies != null) {
-                    UserSave userSave = new UserSave(cookies);
-                    if (userSave.isLogin()) {
-                        userSave.updateToSave();
-                        mWebView.stopLoading();
-                        startActivity(new Intent(AuthActivity.this, MainActivity.class));
-                        finish();
+                super.onPageStarted(view, url, favicon);
+                if (url.contains("developer.coolapk.com")) {
+                    String cookies = CookieManager.getInstance().getCookie(url);
+                    if (cookies != null) {
+                        UserSave userSave = new UserSave(cookies);
+                        if (userSave.isLogin()) {
+                            userSave.updateToSave();
+                            mWebView.stopLoading();
+                            startActivity(new Intent(AuthActivity.this, MainActivity.class));
+                            finish();
+                        }
                     }
                 }
             }
